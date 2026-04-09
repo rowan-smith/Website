@@ -1,0 +1,111 @@
+{
+  "resume": {
+    "name": "Rowan Smith",
+    "title": "Software Developer",
+    "email": "rowanpsmith@yahoo.com.au",
+    "location": "Townsville, QLD, AU",
+    "github": "https://github.com/rowan-smith",
+    "linkedin": "https://linkedin.com/in/rowanpsmith",
+    "about": "Software developer with over three years of professional experience building and maintaining internal financial systems using C#, ASP.NET, TypeScript, and SQL. Experienced in API integrations, modern frontend frameworks, and Agile development practices. Passionate about writing clean, maintainable code and continuously expanding technical skills.",
+    "experience": [
+      {
+        "title": "Software Developer",
+        "company": "FinanceOne",
+        "location": "Townsville, QLD, AU",
+        "period": "October 2022 - March 2026",
+        "bullets": [
+          "Developed and maintained internal finance applications using C#, ASP.NET, TypeScript, and SQL.",
+          "Built and enhanced user interfaces using React and Redux.",
+          "Integrated third-party APIs to support business requirements and extend system functionality.",
+          "Maintained and upgraded internal libraries and wrappers to improve stability and performance.",
+          "Collaborated in Agile teams through sprints, stand-ups, and planning poker sessions."
+        ]
+      },
+      {
+        "title": "Table Games Dealer",
+        "company": "The Ville-Resort Casino",
+        "location": "Townsville, QLD, AU",
+        "period": "January 2021 - March 2023",
+        "bullets": [
+          "Managed high-pressure gaming environments requiring accuracy and attention to detail.",
+          "Handled financial transactions and ensured compliance with gaming procedures."
+        ]
+      },
+      {
+        "title": "Intern",
+        "company": "Townsville Chamber of Commerce",
+        "location": "Townsville, QLD, AU",
+        "period": "November 2020 - December 2020",
+        "bullets": [
+          "Contributed to a team project redesigning a website using WordPress.",
+          "Produced design documentation and functional specifications."
+        ]
+      },
+      {
+        "title": "Casual Teacher",
+        "company": "James Cook University",
+        "location": "Townsville, QLD, AU",
+        "period": "August 2019 - December 2019",
+        "bullets": [
+          "Supervised and marked Programming III (Java) practical and tutorials.",
+          "Assisted students with coursework and answered technical questions.",
+          "Maintained attendance records and supported assessment processes."
+        ]
+      }
+    ],
+    "education": [
+      {
+        "degree": "Graduate Certificate of Computer Science",
+        "school": "Queensland University of Technology",
+        "location": "Brisbane, QLD, AU",
+        "period": "July 2024 - Present"
+      },
+      {
+        "degree": "Bachelor of Information Technology",
+        "school": "James Cook University",
+        "location": "Townsville, QLD, AU",
+        "period": "March 2017 - August 2022"
+      }
+    ],
+    "skills": {
+      "Languages": ["C#", "TypeScript", "SQL", "Python"],
+      "Frameworks": ["ASP.NET", "React", "Redux"],
+      "Tools & Practices": ["Git", "REST APIs", "Agile / Scrum"],
+      "Databases": ["Microsoft SQL Server", "PostgreSQL"]
+    },
+    "projects": [
+      {
+        "name": "Spotify Extended Streaming History Analysis",
+        "description": "A Python data analysis tool to process and explore Spotify Extended Streaming History exports. Loads and parses raw JSON listening history to generate insights into user music behaviour, including top artists, top tracks, listening timelines, and year-by-year trends. Built with Jupyter Notebook and Python libraries.",
+        "tech": ["Python", "Jupyter Notebook"],
+        "link": "https://github.com/rowan-smith/Spotify-Extended-Streaming-History-Analysis"
+      },
+      {
+        "name": "VibeGame",
+        "description": "An experimental C# game project where the majority of code was produced by an AI model. Managed, reviewed, and integrated AI-generated components into a playable project structure, demonstrating iterative refinement of AI-generated software.",
+        "tech": ["C#"],
+        "link": "https://github.com/rowan-smith/VibeGame"
+      }
+    ]
+  },
+  "funProjects": [
+    {
+      "name": "Spotify Extended Streaming History Analysis",
+      "emoji": "🎵",
+      "status": "completed",
+      "description": "A Python data analysis tool to process and explore Spotify Extended Streaming History exports. Loads and parses raw JSON listening history to generate insights into user music behaviour, including top artists, top tracks, listening timelines, and year-by-year trends.",
+      "tech": ["Python", "Jupyter Notebook"],
+      "keywords": ["Data Analysis", "Visualisation", "Music"],
+      "link": "https://github.com/rowan-smith/Spotify-Extended-Streaming-History-Analysis"
+    },
+    {
+      "name": "VibeGame",
+      "emoji": "🎮",
+      "status": "active",
+      "description": "An experimental C# game project where the majority of code was produced by an AI model. Managed, reviewed, and integrated AI-generated components into a playable project structure, demonstrating iterative refinement of AI-generated software.",
+      "tech": ["C#"],
+      "keywords": ["AI", "Game Dev", "Experimentation"],
+      "link": "https://github.com/rowan-smith/VibeGame"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rowan Smith</title>
+    <script>
+      // GitHub Pages SPA redirect — preserves the path for React Router
+      const path = window.location.pathname;
+      sessionStorage.setItem('redirect', path);
+      const segments = path.split('/').filter(Boolean);
+      const isProjectPages = window.location.hostname.endsWith('github.io') && segments.length > 1;
+      const base = isProjectPages ? '/' + segments[0] + '/' : '/';
+      window.location.replace(base);
+    </script>
+  </head>
+</html>
