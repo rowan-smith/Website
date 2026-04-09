@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: ./website/package-lock.json
 
@@ -41,12 +41,23 @@ jobs:
         id: base
         env:
           REPO_NAME: ${{ github.event.repository.name }}
+          OVERRIDE_BASE_PATH: ${{ vars.PAGES_BASE_PATH }}
         run: |
-          if [[ "$REPO_NAME" == *.github.io ]]; then
-            echo "path=/" >> "$GITHUB_OUTPUT"
+          if [[ -n "$OVERRIDE_BASE_PATH" ]]; then
+            BASE="$OVERRIDE_BASE_PATH"
+          elif [[ -f "./public/CNAME" ]]; then
+            BASE="/"
+          elif [[ "$REPO_NAME" == *.github.io ]]; then
+            BASE="/"
           else
-            echo "path=/$REPO_NAME/" >> "$GITHUB_OUTPUT"
+            BASE="/$REPO_NAME/"
           fi
+
+          # Ensure BASE starts and ends with a slash for Vite.
+          [[ "$BASE" != /* ]] && BASE="/$BASE"
+          [[ "$BASE" != */ ]] && BASE="$BASE/"
+
+          echo "path=$BASE" >> "$GITHUB_OUTPUT"
 
       - name: Build website
         run: npm run build -- --base "${{ steps.base.outputs.path }}"
