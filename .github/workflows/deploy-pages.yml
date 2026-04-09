@@ -43,20 +43,25 @@ jobs:
           REPO_NAME: ${{ github.event.repository.name }}
           OVERRIDE_BASE_PATH: ${{ vars.PAGES_BASE_PATH }}
         run: |
-          if [[ -n "$OVERRIDE_BASE_PATH" ]]; then
-            BASE="$OVERRIDE_BASE_PATH"
-          elif [[ -f "./public/CNAME" ]]; then
+          if [[ -f "./public/CNAME" ]]; then
             BASE="/"
+            REASON="custom-domain-cname"
+          elif [[ -n "$OVERRIDE_BASE_PATH" ]]; then
+            BASE="$OVERRIDE_BASE_PATH"
+            REASON="repo-variable-override"
           elif [[ "$REPO_NAME" == *.github.io ]]; then
             BASE="/"
+            REASON="user-site-repo"
           else
             BASE="/$REPO_NAME/"
+            REASON="project-site-repo"
           fi
 
           # Ensure BASE starts and ends with a slash for Vite.
           [[ "$BASE" != /* ]] && BASE="/$BASE"
           [[ "$BASE" != */ ]] && BASE="$BASE/"
 
+          echo "Using Vite base path: $BASE ($REASON)"
           echo "path=$BASE" >> "$GITHUB_OUTPUT"
 
       - name: Build website
