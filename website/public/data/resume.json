@@ -105,6 +105,15 @@
       "tech": ["C#"],
       "keywords": ["AI", "Game Dev", "Experimentation"],
       "link": "https://github.com/rowan-smith/VibeGame"
+    },
+    {
+      "name": "Ethical UX",
+      "emoji": "🧭",
+      "status": "active",
+      "description": "A React and Storybook project exploring dark patterns and better UX alternatives through interactive component examples. Each pattern starts with the deceptive version first, then contrasts it with a more transparent and respectful implementation.",
+      "tech": ["React", "TypeScript", "Storybook"],
+      "keywords": ["UX", "Ethical Design", "Storybook"],
+      "link": "https://github.com/rowan-smith/ethicalux"
     }
   ]
 }
