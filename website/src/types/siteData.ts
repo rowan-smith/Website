@@ -13,13 +13,6 @@ export interface EducationItem {
   period: string;
 }
 
-export interface ResumeProject {
-  name: string;
-  description: string;
-  tech: string[];
-  link?: string;
-}
-
 export interface ResumeData {
   name: string;
   title: string;
@@ -31,7 +24,6 @@ export interface ResumeData {
   experience: ExperienceItem[];
   education: EducationItem[];
   skills: Record<string, string[]>;
-  projects: ResumeProject[];
 }
 
 export interface SiteProject {
@@ -42,6 +34,7 @@ export interface SiteProject {
   link?: string;
   status: 'active' | 'completed' | 'wip';
   emoji: string;
+  highlightOnResume?: boolean;
 }
 
 export interface SiteData {

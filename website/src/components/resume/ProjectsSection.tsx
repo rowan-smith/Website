@@ -3,13 +3,15 @@ import { useSiteData } from '../../context/SiteDataContext';
 export default function ProjectsSection() {
   const { data } = useSiteData();
   if (!data) return null;
+  const resumeProjects = data.funProjects.filter((project) => project.highlightOnResume);
+  if (resumeProjects.length === 0) return null;
 
   return (
     <section id="projects" className="section">
       <div className="container">
         <h2 className="section-title">Projects</h2>
         <div className="projects-grid">
-          {data.resume.projects.map((proj, i) => (
+          {resumeProjects.map((proj, i) => (
             <article key={i} className="project-card">
               <div className="project-header">
                 <h3 className="project-name">{proj.name}</h3>

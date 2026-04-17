@@ -71,21 +71,7 @@
       "Frameworks": ["ASP.NET", "React", "Redux"],
       "Tools & Practices": ["Git", "REST APIs", "Agile / Scrum"],
       "Databases": ["Microsoft SQL Server", "PostgreSQL"]
-    },
-    "projects": [
-      {
-        "name": "Spotify Extended Streaming History Analysis",
-        "description": "A Python data analysis tool to process and explore Spotify Extended Streaming History exports. Loads and parses raw JSON listening history to generate insights into user music behaviour, including top artists, top tracks, listening timelines, and year-by-year trends. Built with Jupyter Notebook and Python libraries.",
-        "tech": ["Python", "Jupyter Notebook"],
-        "link": "https://github.com/rowan-smith/Spotify-Extended-Streaming-History-Analysis"
-      },
-      {
-        "name": "VibeGame",
-        "description": "An experimental C# game project where the majority of code was produced by an AI model. Managed, reviewed, and integrated AI-generated components into a playable project structure, demonstrating iterative refinement of AI-generated software.",
-        "tech": ["C#"],
-        "link": "https://github.com/rowan-smith/VibeGame"
-      }
-    ]
+    }
   },
   "funProjects": [
     {
@@ -95,6 +81,7 @@
       "description": "A Python data analysis tool to process and explore Spotify Extended Streaming History exports. Loads and parses raw JSON listening history to generate insights into user music behaviour, including top artists, top tracks, listening timelines, and year-by-year trends.",
       "tech": ["Python", "Jupyter Notebook"],
       "keywords": ["Data Analysis", "Visualisation", "Music"],
+      "highlightOnResume": true,
       "link": "https://github.com/rowan-smith/Spotify-Extended-Streaming-History-Analysis"
     },
     {
@@ -104,6 +91,7 @@
       "description": "An experimental C# game project where the majority of code was produced by an AI model. Managed, reviewed, and integrated AI-generated components into a playable project structure, demonstrating iterative refinement of AI-generated software.",
       "tech": ["C#"],
       "keywords": ["AI", "Game Dev", "Experimentation"],
+      "highlightOnResume": true,
       "link": "https://github.com/rowan-smith/VibeGame"
     },
     {
@@ -111,7 +99,7 @@
       "emoji": "🧭",
       "status": "active",
       "description": "A React and Storybook project exploring dark patterns and better UX alternatives through interactive component examples. Each pattern starts with the deceptive version first, then contrasts it with a more transparent and respectful implementation.",
-      "tech": ["React", "TypeScript", "Storybook"],
+      "tech": ["React", "TypeScript"],
       "keywords": ["UX", "Ethical Design", "Storybook"],
       "link": "https://github.com/rowan-smith/ethicalux"
     }
