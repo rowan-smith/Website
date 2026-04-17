@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSiteData } from '../context/SiteDataContext';
+import ProfileAvatar from '../components/common/ProfileAvatar';
+import ProfileContactLinks from '../components/common/ProfileContactLinks';
 
 const STATS = [
   { num: '3+', label: 'Years Experience' },
@@ -18,17 +20,14 @@ export default function IndexPage() {
       {/* Hero */}
       <section className="index-hero">
         <div className="container index-hero-inner">
-          <div className="index-avatar">RS</div>
+          <ProfileAvatar name={resume.name} />
           <h1 className="index-name">{resume.name}</h1>
           <p className="index-subtitle">{resume.title}</p>
-          <p className="index-location">{resume.location}</p>
-          <div className="index-ext-links">
-            <a href={resume.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-            <span className="sep">·</span>
-            <a href={resume.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <span className="sep">·</span>
-            <a href={`mailto:${resume.email}`}>{resume.email}</a>
-          </div>
+          <ProfileContactLinks
+            location={resume.location}
+            github={resume.github}
+            linkedin={resume.linkedin}
+          />
         </div>
       </section>
 

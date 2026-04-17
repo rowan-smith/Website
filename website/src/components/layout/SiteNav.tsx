@@ -29,7 +29,7 @@ export default function SiteNav() {
     <nav className="nav">
       <div className="container nav-inner">
         <Link to="/" className="nav-logo">
-          <span className="nav-logo-initials">RS</span>
+          <img className="nav-logo-icon" src="/favicon.svg" alt="" aria-hidden="true" />
           <span className="nav-logo-name">{resume.name}</span>
         </Link>
 
@@ -80,3 +80,4 @@ export default function SiteNav() {
     </nav>
   );
 }
+

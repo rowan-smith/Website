@@ -12,8 +12,8 @@ export default function ContactFooter() {
         <p className="contact-sub">
           I'm open to new opportunities. Feel free to reach out!
         </p>
-        <a href={`mailto:${resume.email}`} className="contact-btn">
-          {resume.email}
+        <a href={resume.linkedin} target="_blank" rel="noopener noreferrer" className="contact-btn">
+          Connect on LinkedIn
         </a>
         <div className="contact-socials">
           <a href={resume.github} target="_blank" rel="noopener noreferrer">
