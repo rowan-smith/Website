@@ -4,6 +4,7 @@ import IndexPage from './pages/IndexPage';
 import ResumePage from './pages/ResumePage';
 import ProjectsPage from './pages/ProjectsPage';
 import { SiteDataProvider, useSiteData } from './context/SiteDataContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 function AppContent() {
   const { loading, error } = useSiteData();
@@ -30,9 +31,11 @@ function AppContent() {
 
 function App() {
   return (
-    <SiteDataProvider>
-      <AppContent />
-    </SiteDataProvider>
+    <ThemeProvider>
+      <SiteDataProvider>
+        <AppContent />
+      </SiteDataProvider>
+    </ThemeProvider>
   );
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSiteData } from '../../context/SiteDataContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const RESUME_SECTIONS = [
   { label: 'About', hash: 'about' },
@@ -15,6 +16,7 @@ export default function SiteNav() {
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const onResume = pathname === '/resume';
+  const { theme, toggleTheme } = useTheme();
   const { data } = useSiteData();
   if (!data) return null;
   const { resume } = data;
@@ -29,9 +31,19 @@ export default function SiteNav() {
     <nav className="nav">
       <div className="container nav-inner">
         <Link to="/" className="nav-logo">
-          <img className="nav-logo-icon" src="/favicon.svg" alt="" aria-hidden="true" />
+          <img className="nav-logo-icon" src="/favicon-dark.svg" alt="" aria-hidden="true" />
           <span className="nav-logo-name">{resume.name}</span>
         </Link>
+
+        <button
+          className="nav-theme-toggle"
+          type="button"
+          onClick={toggleTheme}
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? '☀' : '☾'}
+        </button>
 
         <button
           className="nav-mobile-toggle"
