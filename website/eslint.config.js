@@ -55,7 +55,7 @@ export default defineConfig([
       },
     },
     settings: {
-      react: { version: 'detect' },
+      react: { version: '19.2' },
     },
     rules: {
       ...react.configs.recommended.rules,
