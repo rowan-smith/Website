@@ -1,72 +1,68 @@
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+
 import { useSiteData } from '../../context/SiteDataContext';
+import { ExternalLink } from '../common/ExternalLink';
+import { PageSection } from '../common/PageSection';
 
 export default function ProjectsSection() {
   const { data } = useSiteData();
+
   if (!data) {
     return null;
   }
 
   const resumeProjects = data.funProjects.filter((project) => project.highlightOnResume);
+
   if (resumeProjects.length === 0) {
     return null;
   }
 
   return (
-    <section id="projects" className="section">
-      <div className="container">
-        <h2 className="section-title">Projects</h2>
-        <div className="projects-grid">
-
-          {resumeProjects.map((proj, i) => (
-              <article key={i} className="project-card">
-                <div className="project-header">
-                  <div className="project-header-main">
-                    <h3 className="project-name">{proj.name}</h3>
+    <PageSection id="projects" title="Projects" shade="muted">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-5 max-sm:grid-cols-1">
+        {resumeProjects.map((proj) => (
+          <Card key={proj.name} className="transition-transform hover:-translate-y-0.5 hover:shadow-lg">
+            <CardContent className="flex h-full flex-col gap-3 p-6">
+              <div className="flex items-start justify-between gap-3 max-[520px]:flex-col">
+                <CardTitle className="text-base">{proj.name}</CardTitle>
+                {(proj.githubLink || proj.websiteLink) && (
+                  <div className="flex shrink-0 items-center gap-2">
+                    {proj.githubLink && (
+                      <ExternalLink
+                        href={proj.githubLink}
+                        aria-label={`View ${proj.name} on GitHub`}
+                      >
+                        GitHub
+                      </ExternalLink>
+                    )}
+                    {proj.githubLink && proj.websiteLink && (
+                      <Separator orientation="vertical" className="h-3" />
+                    )}
+                    {proj.websiteLink && (
+                      <ExternalLink
+                        href={proj.websiteLink}
+                        aria-label={`Visit ${proj.name} website`}
+                      >
+                        Website
+                      </ExternalLink>
+                    )}
                   </div>
-
-                  {(proj.githubLink || proj.websiteLink) && (
-                    <div className="project-links">
-
-                      {proj.githubLink && (
-                        <a
-                          href={proj.githubLink}
-                          className="project-link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`View ${proj.name} on GitHub`}
-                        >
-                          GitHub
-                        </a>
-                      )}
-
-                      {proj.githubLink && proj.websiteLink && <span className="sep">·</span>}
-
-                      {proj.websiteLink && (
-                        <a
-                          href={proj.websiteLink}
-                          className="project-link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`Visit ${proj.name} website`}
-                        >
-                          Website
-                        </a>
-                      )}
-                    </div>
-                  )}
-
-                </div>
-                <p className="project-desc">{proj.description}</p>
-                <div className="tag-list project-tags">
-                  {proj.tech.map((t) => (
-                    <span key={t} className="tag">{t}</span>
-                  ))}
-                </div>
-              </article>
-            ))}
-
-        </div>
+                )}
+              </div>
+              <CardDescription className="flex-1 leading-relaxed">{proj.description}</CardDescription>
+              <div className="mt-auto flex flex-wrap gap-2">
+                {proj.tech.map((tech) => (
+                  <Badge key={tech} variant="secondary" className="rounded-full text-xs">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
-    </section>
+    </PageSection>
   );
 }

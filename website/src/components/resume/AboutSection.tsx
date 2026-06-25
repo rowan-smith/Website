@@ -1,15 +1,20 @@
+import { CardDescription } from '@/components/ui/card';
+
 import { useSiteData } from '../../context/SiteDataContext';
+import { PageSection } from '../common/PageSection';
 
 export default function AboutSection() {
   const { data } = useSiteData();
-  if (!data) return null;
+
+  if (!data) {
+    return null;
+  }
 
   return (
-    <section id="about" className="section">
-      <div className="container">
-        <h2 className="section-title">About Me</h2>
-        <p className="about-text">{data.resume.about}</p>
-      </div>
-    </section>
+    <PageSection id="about" title="About">
+      <CardDescription className="max-w-185 text-[17px] leading-relaxed max-sm:text-base">
+        {data.resume.about}
+      </CardDescription>
+    </PageSection>
   );
 }

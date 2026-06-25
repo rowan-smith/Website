@@ -1,3 +1,6 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
+
 type ProfileAvatarProps = {
   name: string;
   imageSrc?: string;
@@ -14,9 +17,19 @@ export default function ProfileAvatar({
     .map((part) => part[0])
     .join('');
 
-  if (!imageSrc) {
-    return <div className={`profile-avatar ${className}`.trim()}>{initials}</div>;
-  }
-
-  return <img className={`profile-avatar ${className}`.trim()} src={imageSrc} alt={`${name} profile`} />;
+  return (
+    <Avatar
+      className={cn(
+        'mb-2 size-40 border-4 border-indigo-500/25 shadow-[0_12px_30px_rgba(99,102,241,0.4)] max-sm:size-36',
+        className,
+      )}
+    >
+      {imageSrc ? (
+        <AvatarImage src={imageSrc} alt={`${name} profile`} />
+      ) : null}
+      <AvatarFallback className="bg-linear-to-br from-blue-500 to-indigo-500 text-5xl font-bold text-white max-sm:text-4xl">
+        {initials}
+      </AvatarFallback>
+    </Avatar>
+  );
 }

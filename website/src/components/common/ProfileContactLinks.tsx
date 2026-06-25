@@ -1,3 +1,8 @@
+import { CardDescription } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+
+import { ExternalLink } from './ExternalLink';
+
 type ProfileContactLinksProps = {
   location: string;
   github: string;
@@ -11,15 +16,15 @@ export default function ProfileContactLinks({
 }: ProfileContactLinksProps) {
   return (
     <>
-      <p className="profile-location">{location}</p>
-      <div className="profile-links">
-        <a href={github} target="_blank" rel="noopener noreferrer">
+      <CardDescription className="text-sm text-slate-400">{location}</CardDescription>
+      <div className="mt-1.5 flex flex-wrap items-center justify-center gap-2.5 text-sm max-[520px]:flex-col max-[520px]:gap-1">
+        <ExternalLink href={github} className="text-slate-400 hover:text-slate-200">
           GitHub
-        </a>
-        <span className="sep">·</span>
-        <a href={linkedin} target="_blank" rel="noopener noreferrer">
+        </ExternalLink>
+        <Separator orientation="vertical" className="h-3 bg-slate-400/35 max-[520px]:hidden" />
+        <ExternalLink href={linkedin} className="text-slate-400 hover:text-slate-200">
           LinkedIn
-        </a>
+        </ExternalLink>
       </div>
     </>
   );

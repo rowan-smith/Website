@@ -1,30 +1,36 @@
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+
 import { useSiteData } from '../../context/SiteDataContext';
+import { PageSection } from '../common/PageSection';
 
 export default function EducationSection() {
   const { data } = useSiteData();
-  if (!data) return null;
+
+  if (!data) {
+      return null;
+  }
 
   return (
-    <section id="education" className="section">
-      <div className="container">
-        <h2 className="section-title">Education</h2>
-        <div className="edu-list">
-          {data.resume.education.map((edu, i) => (
-            <article key={i} className="edu-card">
-              <div className="edu-header">
-                <div>
-                  <h3 className="edu-degree">{edu.degree}</h3>
-                  <div className="edu-sub">
-                    <span className="edu-school">{edu.school}</span>
-                    <span className="edu-location">&nbsp;·&nbsp;{edu.location}</span>
-                  </div>
-                </div>
-                <span className="period-badge">{edu.period}</span>
+    <PageSection id="education" title="Education">
+      <div className="flex flex-col gap-4">
+        {data.resume.education.map((edu, i) => (
+          <Card key={i}>
+            <CardContent className="flex flex-wrap items-start justify-between gap-4 p-7 max-sm:p-5">
+              <div>
+                <CardTitle className="mb-1 text-[17px]">{edu.degree}</CardTitle>
+                <CardDescription className="text-sm">
+                  <span className="font-medium text-primary">{edu.school}</span>
+                  <span>&nbsp;·&nbsp;{edu.location}</span>
+                </CardDescription>
               </div>
-            </article>
-          ))}
-        </div>
+              <Badge variant="outline" className="shrink-0 rounded-full px-2.5 py-1 text-xs font-medium">
+                {edu.period}
+              </Badge>
+            </CardContent>
+          </Card>
+        ))}
       </div>
-    </section>
+    </PageSection>
   );
 }

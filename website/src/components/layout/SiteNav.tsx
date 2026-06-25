@@ -1,5 +1,15 @@
-import { useEffect, useState } from 'react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+import { AnchorButton } from '@/components/common/AnchorButton';
+import { ExternalLink } from '@/components/common/ExternalLink';
+import { RouterLinkButton } from '@/components/common/RouterLinkButton';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { pageContainerClass } from '@/lib/pageContainer';
+import { cn } from '@/lib/utils';
+
 import { useSiteData } from '../../context/SiteDataContext';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -13,13 +23,12 @@ const RESUME_SECTIONS = [
   { label: 'Contact', hash: 'contact' },
 ];
 
+const navButtonClass = 'h-auto rounded-md px-2.5 py-1.5 text-[13.5px] font-medium text-slate-400 hover:bg-white/10 hover:text-white';
+
 export default function SiteNav() {
   const { pathname } = useLocation();
-
   const [menuOpen, setMenuOpen] = useState(false);
-
   const onResume = pathname === '/resume';
-
   const { theme, toggleTheme } = useTheme();
   const { data } = useSiteData();
 
@@ -28,70 +37,104 @@ export default function SiteNav() {
   }
 
   const { resume } = data;
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <nav className="nav">
-      <div className="container nav-inner">
-        <Link to="/" className="nav-logo">
-          <img className="nav-logo-icon" src="/favicon-dark.svg" alt="" aria-hidden="true" />
-          <span className="nav-logo-name">{resume.name}</span>
-        </Link>
+    <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/95 backdrop-blur-md">
+      <div className={cn(pageContainerClass, 'relative flex h-15 items-center justify-between')}>
+        <Button
+          variant="ghost"
+          className="h-auto gap-2.5 px-0 text-white hover:bg-transparent hover:text-slate-200"
+          render={<Link to="/" />}
+        >
+          <img className="size-8 object-contain" src="/favicon-dark.svg" alt="" aria-hidden="true" />
+          <span className="text-[15px] font-semibold tracking-tight">{resume.name}</span>
+        </Button>
 
-        <button
-          className="nav-theme-toggle"
+        <Button
           type="button"
+          variant="outline"
+          size="icon"
+          className="ml-auto border-white/20 bg-white/5 text-slate-100 hover:bg-white/10 hover:text-white"
           onClick={toggleTheme}
           aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
         >
-          {theme === 'dark' ? '☀' : '☾'}
-        </button>
+          {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
+        </Button>
 
-        <button
-          className="nav-mobile-toggle"
+        <Button
           type="button"
+          variant="outline"
+          size="icon"
+          className="ml-2 hidden border-white/20 bg-transparent text-slate-100 hover:bg-white/10 max-[660px]:inline-flex"
           onClick={() => setMenuOpen((open) => !open)}
           aria-expanded={menuOpen}
           aria-controls="site-nav-links"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
         >
-          <span />
-          <span />
-          <span />
-        </button>
+          {menuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+        </Button>
 
-        <ul id="site-nav-links" className={`nav-links ${menuOpen ? 'is-open' : ''}`}>
+        <ul
+          id="site-nav-links"
+          className={cn(
+            'm-0 flex list-none gap-0.5 p-0 max-[660px]:absolute max-[660px]:top-15 max-[660px]:right-0 max-[660px]:left-0 max-[660px]:hidden max-[660px]:flex-col max-[660px]:gap-1.5 max-[660px]:border-t max-[660px]:border-b max-[660px]:border-white/10 max-[660px]:bg-slate-900/98 max-[660px]:px-0 max-[660px]:py-2.5 max-[660px]:shadow-xl',
+            menuOpen && 'max-[660px]:flex',
+            !onResume && 'ml-3.5',
+          )}
+        >
           {onResume ? (
             <>
               {RESUME_SECTIONS.map(({ label, hash }) => (
                 <li key={hash}>
-                  <a href={`#${hash}`} onClick={closeMenu}>{label}</a>
+                  <AnchorButton
+                    href={`#${hash}`}
+                    variant="ghost"
+                    size="sm"
+                    className={cn(navButtonClass, 'max-[660px]:block max-[660px]:w-full max-[660px]:px-3 max-[660px]:py-2.5 max-[660px]:text-sm')}
+                    onClick={closeMenu}
+                  >
+                    {label}
+                  </AnchorButton>
                 </li>
               ))}
-              <li className="nav-divider" aria-hidden="true" />
+              <li className="flex items-center max-[660px]:hidden" aria-hidden="true">
+                <Separator orientation="vertical" className="mx-0.5 h-4 bg-white/15" />
+              </li>
               <li>
-                <Link to="/projects" className="nav-link-pill" onClick={closeMenu}>Projects ↗</Link>
+                <RouterLinkButton
+                  to="/projects"
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full border-blue-500/30 bg-blue-500/20 text-blue-200 hover:bg-blue-500/30 hover:text-blue-100 max-[660px]:mx-3"
+                  onClick={closeMenu}
+                >
+                  Projects ↗
+                </RouterLinkButton>
               </li>
             </>
           ) : (
             <>
-              <li><Link to="/resume" onClick={closeMenu}>Resume</Link></li>
-              <li><Link to="/projects" onClick={closeMenu}>Projects</Link></li>
               <li>
-                <a href={resume.github} target="_blank" rel="noopener noreferrer" onClick={closeMenu}>
-                  GitHub
-                </a>
+                <RouterLinkButton to="/resume" variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
+                  Resume
+                </RouterLinkButton>
               </li>
               <li>
-                <a href={resume.linkedin} target="_blank" rel="noopener noreferrer" onClick={closeMenu}>
+                <RouterLinkButton to="/projects" variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
+                  Projects
+                </RouterLinkButton>
+              </li>
+              <li>
+                <ExternalLink href={resume.github} className={navButtonClass} onClick={closeMenu}>
+                  GitHub
+                </ExternalLink>
+              </li>
+              <li>
+                <ExternalLink href={resume.linkedin} className={navButtonClass} onClick={closeMenu}>
                   LinkedIn
-                </a>
+                </ExternalLink>
               </li>
             </>
           )}
@@ -100,4 +143,3 @@ export default function SiteNav() {
     </nav>
   );
 }
-

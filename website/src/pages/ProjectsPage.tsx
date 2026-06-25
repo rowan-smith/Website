@@ -1,22 +1,33 @@
-import { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { useSiteData } from '../context/SiteDataContext';
+import { useMemo, useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from '@/components/ui/empty';
+import { pageContainerClass } from '@/lib/pageContainer';
+import { cn } from '@/lib/utils';
+
+import { ExternalLink } from '../components/common/ExternalLink';
+import { PageHero } from '../components/common/PageHero';
+import { RouterLinkButton } from '../components/common/RouterLinkButton';
 import { PROJECT_STATUS_MAP } from '../constants/projectStatus';
-import type { SiteProject } from '../types/siteData';
+import { useSiteData } from '../context/SiteDataContext';
+import type { SiteProject } from '../types';
 
 export default function ProjectsPage() {
   const { data } = useSiteData();
-
   const [statusFilter, setStatusFilter] = useState<SiteProject['status'] | 'all'>('all');
   const [tagFilter, setTagFilter] = useState<string | null>(null);
 
-  if (!data) {
-    return null;
-  }
+  const projects = useMemo(() => data?.funProjects ?? [], [data?.funProjects]);
 
-  const projects = data.funProjects;
-
-  const allStatuses = useMemo(() => Array.from(new Set(projects.map((p) => p.status))),
+  const allStatuses = useMemo(
+    () => Array.from(new Set(projects.map((p) => p.status))),
     [projects],
   );
 
@@ -34,137 +45,165 @@ export default function ProjectsPage() {
   const filtered = useMemo(() => {
     return projects.filter((p) => {
       const statusOk = statusFilter === 'all' || p.status === statusFilter;
-
       const tagOk = tagFilter === null || p.tech.includes(tagFilter) || p.keywords.includes(tagFilter);
 
       return statusOk && tagOk;
     });
   }, [projects, statusFilter, tagFilter]);
 
+  if (!data) {
+    return null;
+  }
+
   const toggleTag = (tag: string) => setTagFilter((prev) => (prev === tag ? null : tag));
 
   return (
-    <div className="projects-page">
-      <div className="projects-page-hero">
-        <div className="container">
-          <h1 className="projects-page-title">Projects</h1>
-          <p className="projects-page-sub">
+    <div>
+      <PageHero className="py-16 max-sm:py-13">
+        <div className={pageContainerClass}>
+          <CardTitle className="mb-2.5 text-5xl font-bold tracking-tight text-white max-sm:text-4xl">
+            Projects
+          </CardTitle>
+          <CardDescription className="text-[17px] text-slate-400 max-sm:text-base">
             Side projects, experiments, and things I build for fun.
-          </p>
+          </CardDescription>
         </div>
-      </div>
+      </PageHero>
 
-      <div className="container projects-page-body">
-        <div className="filter-bar">
-          <div className="filter-group">
-            <span className="filter-label">Status</span>
-            <div className="filter-btns">
-              <button
-                className={`filter-btn ${statusFilter === 'all' ? 'filter-btn--active' : ''}`}
-                onClick={() => setStatusFilter('all')}
-              >
-                All
-              </button>
-              {allStatuses.map((s) => (
-                <button
-                  key={s}
-                  className={`filter-btn ${statusFilter === s ? 'filter-btn--active' : ''}`}
-                  onClick={() => setStatusFilter(s)}
+      <div className={cn(pageContainerClass, 'py-12 pb-20 max-sm:py-8 max-sm:pb-14')}>
+        <Card className="mb-9 max-sm:mb-6">
+          <CardContent className="flex flex-col gap-3.5 p-5 max-sm:p-4">
+            <div className="flex flex-wrap items-center gap-3 max-sm:flex-col max-sm:items-start max-sm:gap-2">
+              <Badge variant="outline" className="min-w-12 rounded-full text-xs font-semibold tracking-wide uppercase">
+                Status
+              </Badge>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  size="sm"
+                  variant={statusFilter === 'all' ? 'default' : 'outline'}
+                  className="rounded-full"
+                  onClick={() => setStatusFilter('all')}
                 >
-                  {PROJECT_STATUS_MAP[s].label}
-                </button>
-              ))}
+                  All
+                </Button>
+                {allStatuses.map((status) => (
+                  <Button
+                    key={status}
+                    size="sm"
+                    variant={statusFilter === status ? 'default' : 'outline'}
+                    className="rounded-full"
+                    onClick={() => setStatusFilter(status)}
+                  >
+                    {PROJECT_STATUS_MAP[status].label}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="filter-group">
-            <span className="filter-label">Tags</span>
-            <div className="filter-btns">
-              {allTags.map((tag) => (
-                <button
-                  key={tag}
-                  className={`filter-btn ${tagFilter === tag ? 'filter-btn--active' : ''}`}
-                  onClick={() => toggleTag(tag)}
-                >
-                  {tag}
-                </button>
-              ))}
+            <div className="flex flex-wrap items-center gap-3 max-sm:flex-col max-sm:items-start max-sm:gap-2">
+              <Badge variant="outline" className="min-w-12 rounded-full text-xs font-semibold tracking-wide uppercase">
+                Tags
+              </Badge>
+              <div className="flex flex-wrap gap-2">
+                {allTags.map((tag) => (
+                  <Button
+                    key={tag}
+                    size="sm"
+                    variant={tagFilter === tag ? 'default' : 'outline'}
+                    className="rounded-full"
+                    onClick={() => toggleTag(tag)}
+                  >
+                    {tag}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {filtered.length > 0 ? (
-          <div className="fun-projects-grid">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 max-sm:grid-cols-1">
             {filtered.map((proj) => {
-              const { label, cls } = PROJECT_STATUS_MAP[proj.status];
+              const { label, className: statusClassName } = PROJECT_STATUS_MAP[proj.status];
+
               return (
-                <article key={proj.name} className="fun-card">
-                  <div className="fun-card-top">
-                    <span className="fun-card-emoji">{proj.emoji}</span>
-                    <span className={`status-badge ${cls}`}>{label}</span>
-                  </div>
-                  <h3 className="fun-card-name">{proj.name}</h3>
-                  <p className="fun-card-desc">{proj.description}</p>
-                  <div className="tag-list fun-card-tags">
-                    {proj.tech.map((t) => (
-                      <button
-                        key={t}
-                        className={`tag tag--btn ${tagFilter === t ? 'tag--btn-active' : ''}`}
-                        onClick={() => toggleTag(t)}
-                      >
-                        {t}
-                      </button>
-                    ))}
-                  </div>
-                  {proj.keywords.length > 0 && (
-                    <div className="tag-list fun-card-keywords">
-                      {proj.keywords.map((k) => (
-                        <button
-                          key={k}
-                          className={`tag tag--keyword tag--btn ${tagFilter === k ? 'tag--btn-active' : ''}`}
-                          onClick={() => toggleTag(k)}
+                <Card key={proj.name} className="transition-transform hover:-translate-y-0.5 hover:shadow-lg">
+                  <CardContent className="flex flex-col gap-3 p-7 max-sm:p-5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[28px] leading-none">{proj.emoji}</span>
+                      <Badge variant="outline" className={cn('rounded-full', statusClassName)}>
+                        {label}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-lg">{proj.name}</CardTitle>
+                    <CardDescription className="flex-1 leading-relaxed">{proj.description}</CardDescription>
+                    <div className="flex flex-wrap gap-2">
+                      {proj.tech.map((tech) => (
+                        <Badge
+                          key={tech}
+                          variant={tagFilter === tech ? 'default' : 'secondary'}
+                          className="cursor-pointer rounded-full"
+                          render={<button type="button" onClick={() => toggleTag(tech)} />}
                         >
-                          {k}
-                        </button>
+                          {tech}
+                        </Badge>
                       ))}
                     </div>
-                  )}
-                  {(proj.githubLink || proj.websiteLink) && (
-                    <div className="fun-card-links">
-                      {proj.githubLink && (
-                        <a
-                          href={proj.githubLink}
-                          className="fun-card-link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          GitHub →
-                        </a>
-                      )}
-                      {proj.websiteLink && (
-                        <a
-                          href={proj.websiteLink}
-                          className="fun-card-link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Website →
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </article>
+                    {proj.keywords.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {proj.keywords.map((keyword) => (
+                          <Badge
+                            key={keyword}
+                            variant="outline"
+                            className={cn(
+                              'cursor-pointer rounded-full',
+                              tagFilter === keyword && 'bg-foreground text-background',
+                            )}
+                            render={<button type="button" onClick={() => toggleTag(keyword)} />}
+                          >
+                            {keyword}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                    {(proj.githubLink || proj.websiteLink) && (
+                      <div className="mt-1 flex flex-wrap gap-3">
+                        {proj.githubLink && (
+                          <ExternalLink href={proj.githubLink}>
+                            GitHub →
+                          </ExternalLink>
+                        )}
+                        {proj.websiteLink && (
+                          <ExternalLink href={proj.websiteLink}>
+                            Website →
+                          </ExternalLink>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
         ) : (
-          <p className="filter-empty">No projects match the current filters.</p>
+          <Empty className="py-12">
+            <EmptyHeader>
+              <EmptyTitle>No matching projects</EmptyTitle>
+              <EmptyDescription>Try adjusting your status or tag filters.</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
         )}
 
-        <div className="projects-page-cta">
-          <p>Want to see my professional experience?</p>
-          <Link to="/resume" className="contact-btn">View Resume →</Link>
-        </div>
+        <Card className="mt-18 bg-muted/50 text-center max-sm:mt-12">
+          <CardContent className="p-12 max-sm:p-7">
+            <CardDescription className="mb-5 text-base">
+              Want to see my professional experience?
+            </CardDescription>
+            <RouterLinkButton to="/resume" size="lg">
+              View Resume →
+            </RouterLinkButton>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

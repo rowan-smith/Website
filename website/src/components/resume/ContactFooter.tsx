@@ -1,7 +1,16 @@
+import { Button } from '@/components/ui/button';
+import { CardDescription, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { pageContainerClass } from '@/lib/pageContainer';
+import { cn } from '@/lib/utils';
+
 import { useSiteData } from '../../context/SiteDataContext';
+import { ExternalLink } from '../common/ExternalLink';
+import { PageHero } from '../common/PageHero';
 
 export default function ContactFooter() {
   const { data } = useSiteData();
+
   if (!data) {
     return null;
   }
@@ -9,31 +18,41 @@ export default function ContactFooter() {
   const { resume } = data;
 
   return (
-    <footer id="contact" className="contact">
-      <div className="container contact-inner">
-        <h2 className="contact-heading">Get In Touch</h2>
-        <p className="contact-sub">
-          I'm open to new opportunities. Feel free to reach out!
-        </p>
+    <footer id="contact">
+      <PageHero className="max-sm:py-15">
+        <div className={cn(pageContainerClass, 'flex flex-col items-center gap-3.5')}>
+          <CardTitle className="text-[34px] font-bold tracking-tight text-white max-sm:text-[26px]">
+            Get In Touch
+          </CardTitle>
+          <CardDescription className="max-w-140 text-base text-balance text-slate-400">
+            I'm open to new opportunities. Feel free to reach out!
+          </CardDescription>
 
-        <div className="contact-actions">
-          <a href={resume.linkedin} target="_blank" rel="noopener noreferrer" className="contact-btn">
-            Connect on LinkedIn
-          </a>
+          <div className="mt-2 flex flex-wrap justify-center gap-3">
+            <Button
+              size="lg"
+              className="shadow-[0_4px_14px_rgba(37,99,235,0.4)]"
+              render={<a href={resume.linkedin} target="_blank" rel="noopener noreferrer" />}
+            >
+              Connect on LinkedIn
+            </Button>
+          </div>
+
+          <div className="mt-1 flex flex-wrap items-center justify-center gap-2.5 text-sm max-[520px]:flex-col max-[520px]:gap-1">
+            <ExternalLink href={resume.github} className="text-slate-400 hover:text-slate-200">
+              GitHub
+            </ExternalLink>
+            <Separator orientation="vertical" className="h-3 bg-slate-400/35 max-[520px]:hidden" />
+            <ExternalLink href={resume.linkedin} className="text-slate-400 hover:text-slate-200">
+              LinkedIn
+            </ExternalLink>
+          </div>
+
+          <CardDescription className="mt-1.5 text-[13px] text-slate-500">
+            © {new Date().getFullYear()} {resume.name}
+          </CardDescription>
         </div>
-
-        <div className="contact-socials">
-          <a href={resume.github} target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
-          <span>·</span>
-          <a href={resume.linkedin} target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
-        </div>
-
-        <p className="contact-copy">© {new Date().getFullYear()} {resume.name}</p>
-      </div>
+      </PageHero>
     </footer>
   );
 }

@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { SiteData } from '../types/siteData';
+import { createContext, type ReactNode,useContext, useEffect, useState } from 'react';
+
+import type { SiteData } from '../types';
 
 interface SiteDataContextValue {
   data: SiteData | null;
@@ -27,6 +28,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
         }
 
         const json = (await response.json()) as SiteData;
+
         setData(json);
 
       } catch (err) {
@@ -42,6 +44,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     }
 
     void loadData();
+
     return () => controller.abort();
   }, []);
 
