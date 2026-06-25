@@ -21,15 +21,19 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     async function loadData() {
       try {
         const response = await fetch(dataUrl, { signal: controller.signal });
+
         if (!response.ok) {
           throw new Error(`Failed to load site data: ${response.status}`);
         }
+
         const json = (await response.json()) as SiteData;
         setData(json);
+
       } catch (err) {
         if (!controller.signal.aborted) {
           setError(err instanceof Error ? err.message : 'Unknown error');
         }
+
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
@@ -50,8 +54,10 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
 export function useSiteData() {
   const context = useContext(SiteDataContext);
+
   if (!context) {
     throw new Error('useSiteData must be used within a SiteDataProvider');
   }
+
   return context;
 }

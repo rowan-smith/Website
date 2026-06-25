@@ -1,7 +1,7 @@
 export interface ExperienceItem {
   title: string;
   company: string;
-  location: string;
+  location?: string;
   period: string;
   bullets: string[];
 }
@@ -13,16 +13,23 @@ export interface EducationItem {
   period: string;
 }
 
+export interface LeadershipItem {
+  title: string;
+  organization: string;
+  period: string;
+  bullets: string[];
+}
+
 export interface ResumeData {
   name: string;
   title: string;
-  email: string;
   location: string;
   github: string;
   linkedin: string;
   about: string;
   experience: ExperienceItem[];
   education: EducationItem[];
+  leadership?: LeadershipItem[];
   skills: Record<string, string[]>;
 }
 
@@ -31,8 +38,9 @@ export interface SiteProject {
   description: string;
   tech: string[];
   keywords: string[];
-  link?: string;
-  status: 'active' | 'completed' | 'wip';
+  githubLink?: string;
+  websiteLink?: string;
+  status: 'active' | 'completed' | 'maintenance' | 'wip';
   emoji: string;
   highlightOnResume?: boolean;
 }

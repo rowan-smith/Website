@@ -2,15 +2,14 @@
   "resume": {
     "name": "Rowan Smith",
     "title": "Software Developer",
-    "location": "Townsville, QLD, AU",
+    "location": "Townsville, Queensland",
     "github": "https://github.com/rowan-smith",
     "linkedin": "https://linkedin.com/in/rowanpsmith",
-    "about": "Software developer with over three years of professional experience building and maintaining internal financial systems using C#, ASP.NET, TypeScript, and SQL. Experienced in API integrations, modern frontend frameworks, and Agile development practices. Passionate about writing clean, maintainable code and continuously expanding technical skills.",
+    "about": "Software developer with over three years of professional experience building and maintaining internal financial systems using C#, ASP.NET, TypeScript, and SQL. Experienced in API integrations, modern frontend frameworks, and Agile development practices.",
     "experience": [
       {
         "title": "Software Developer",
         "company": "FinanceOne",
-        "location": "Townsville, QLD, AU",
         "period": "October 2022 - March 2026",
         "bullets": [
           "Developed and maintained internal finance applications using C#, ASP.NET, TypeScript, and SQL.",
@@ -23,7 +22,6 @@
       {
         "title": "Table Games Dealer",
         "company": "The Ville-Resort Casino",
-        "location": "Townsville, QLD, AU",
         "period": "January 2021 - March 2023",
         "bullets": [
           "Managed high-pressure gaming environments requiring accuracy and attention to detail.",
@@ -31,22 +29,11 @@
         ]
       },
       {
-        "title": "Intern",
-        "company": "Townsville Chamber of Commerce",
-        "location": "Townsville, QLD, AU",
-        "period": "November 2020 - December 2020",
-        "bullets": [
-          "Contributed to a team project redesigning a website using WordPress.",
-          "Produced design documentation and functional specifications."
-        ]
-      },
-      {
         "title": "Casual Teacher",
         "company": "James Cook University",
-        "location": "Townsville, QLD, AU",
         "period": "August 2019 - December 2019",
         "bullets": [
-          "Supervised and marked Programming III (Java) practical and tutorials.",
+          "Supervised and marked Programming III (Java) practicals and tutorials.",
           "Assisted students with coursework and answered technical questions.",
           "Maintained attendance records and supported assessment processes."
         ]
@@ -56,52 +43,86 @@
       {
         "degree": "Graduate Certificate of Computer Science",
         "school": "Queensland University of Technology",
-        "location": "Brisbane, QLD, AU",
+        "location": "Brisbane",
         "period": "July 2024 - Present"
       },
       {
         "degree": "Bachelor of Information Technology",
         "school": "James Cook University",
-        "location": "Townsville, QLD, AU",
+        "location": "Townsville",
         "period": "March 2017 - August 2022"
       }
     ],
+    "leadership": [
+      {
+        "title": "President",
+        "organization": "JCU IT Student Association (ITSA)",
+        "period": "July 2019 - November 2020",
+        "bullets": [
+          "Led IT-focused events, student activities, and the annual IT Ball.",
+          "Coordinated sponsorships, applied for grants, and managed budgets.",
+          "Organised team members and volunteers to deliver high-quality initiatives."
+        ]
+      }
+    ],
     "skills": {
-      "Languages": ["C#", "TypeScript", "SQL", "Python"],
-      "Frameworks": ["ASP.NET", "React", "Redux"],
-      "Tools & Practices": ["Git", "REST APIs", "Agile / Scrum"],
+      "Languages": ["C#", "Visual Basic", "TypeScript", "SQL"],
+      "Frameworks": ["ASP.NET Core", ".NET 8", "React", "Redux", "Entity Framework"],
+      "Cloud & DevOps": ["Azure", "Docker", "Azure Pipelines", "Jira"],
+      "Tools & Practices": ["Git Version Control", "REST APIs", "Agile / Scrum", "CQRS"],
       "Databases": ["Microsoft SQL Server", "PostgreSQL"]
     }
   },
   "funProjects": [
     {
-      "name": "Spotify Extended Streaming History Analysis",
+      "name": "IgnisCore",
+      "emoji": "🔥",
+      "status": "active",
+      "description": "A multi-platform framework for custom Minecraft blocks, items, and runtime extensions. Supports Spigot, Paper, and Sponge with a deployable extension system and documentation site.",
+      "tech": ["Java", "Maven"],
+      "keywords": ["Minecraft", "Framework", "Multi-platform"],
+      "githubLink": "https://github.com/rowan-smith/IgnisCore",
+      "websiteLink": "https://igniscore.rono.dev/"
+    },
+    {
+      "name": "PermissionsExPlus",
+      "emoji": "🔐",
+      "status": "maintenance",
+      "description": "A maintained fork of PermissionsEx providing multi-platform permission management for Bukkit, BungeeCord, Velocity, and Sponge. Includes migration tooling, modern and legacy APIs, and comprehensive documentation.",
+      "tech": ["Java", "Maven"],
+      "keywords": ["Minecraft", "Permissions", "Plugin"],
+      "githubLink": "https://github.com/rowan-smith/PermissionsExPlus",
+      "websiteLink": "https://permissionsexplus.rono.dev/"
+    },
+    {
+      "name": "Spotify Streaming History Explorer",
       "emoji": "🎵",
-      "status": "completed",
-      "description": "A Python data analysis tool to process and explore Spotify Extended Streaming History exports. Loads and parses raw JSON listening history to generate insights into user music behaviour, including top artists, top tracks, listening timelines, and year-by-year trends.",
-      "tech": ["Python", "Jupyter Notebook"],
+      "status": "maintenance",
+      "description": "A browser-based tool for exploring Spotify Extended Streaming History exports. Upload JSON files, filter listening data, and browse interactive charts — all processed locally on your device.",
+      "tech": ["TypeScript", "React"],
       "keywords": ["Data Analysis", "Visualisation", "Music"],
       "highlightOnResume": true,
-      "link": "https://github.com/rowan-smith/Spotify-Extended-Streaming-History-Analysis"
+      "githubLink": "https://github.com/rowan-smith/Spotify-Extended-Streaming-History-Analysis",
+      "websiteLink": "https://spotify-analysis.rono.dev/"
     },
     {
       "name": "VibeGame",
       "emoji": "🎮",
       "status": "active",
-      "description": "An experimental C# game project where the majority of code was produced by an AI model. Managed, reviewed, and integrated AI-generated components into a playable project structure, demonstrating iterative refinement of AI-generated software.",
-      "tech": ["C#"],
-      "keywords": ["AI", "Game Dev", "Experimentation"],
+      "description": "An open-world voxel sandbox game built through AI-assisted development. Features procedurally generated biomes, real-time terrain editing, and ore discovery across a surreal fantasy world.",
+      "tech": ["C#", "MonoGame"],
+      "keywords": ["AI", "Game Dev", "Voxel"],
       "highlightOnResume": true,
-      "link": "https://github.com/rowan-smith/VibeGame"
+      "githubLink": "https://github.com/rowan-smith/VibeGame"
     },
     {
-      "name": "Ethical UX",
-      "emoji": "🧭",
-      "status": "active",
-      "description": "A React and Storybook project exploring dark patterns and better UX alternatives through interactive component examples. Each pattern starts with the deceptive version first, then contrasts it with a more transparent and respectful implementation.",
-      "tech": ["React", "TypeScript"],
-      "keywords": ["UX", "Ethical Design", "Storybook"],
-      "link": "https://github.com/rowan-smith/ethicalux"
+      "name": "ProxyChat",
+      "emoji": "💬",
+      "status": "maintenance",
+      "description": "A cross-server chat plugin for BungeeCord and Waterfall. Supports toggleable and ignorable chats, customisable messages, cooldowns, tab completion, and colour formatting.",
+      "tech": ["Java", "Maven"],
+      "keywords": ["Minecraft", "BungeeCord", "Chat"],
+      "githubLink": "https://github.com/rowan-smith/ProxyChat"
     }
   ]
 }

@@ -16,7 +16,9 @@ export default function ExperienceSection() {
                   <h3 className="job-title">{job.title}</h3>
                   <div className="job-sub">
                     <span className="job-company">{job.company}</span>
-                    <span className="job-location">&nbsp;·&nbsp;{job.location}</span>
+                    {job.location && (
+                      <span className="job-location">&nbsp;·&nbsp;{job.location}</span>
+                    )}
                   </div>
                 </div>
                 <span className="period-badge">{job.period}</span>

@@ -8,17 +8,25 @@ const RESUME_SECTIONS = [
   { label: 'Experience', hash: 'experience' },
   { label: 'Education', hash: 'education' },
   { label: 'Skills', hash: 'skills' },
+  { label: 'Leadership', hash: 'leadership' },
   { label: 'Projects', hash: 'projects' },
   { label: 'Contact', hash: 'contact' },
 ];
 
 export default function SiteNav() {
   const { pathname } = useLocation();
+
   const [menuOpen, setMenuOpen] = useState(false);
+
   const onResume = pathname === '/resume';
+
   const { theme, toggleTheme } = useTheme();
   const { data } = useSiteData();
-  if (!data) return null;
+
+  if (!data) {
+    return null;
+  }
+
   const { resume } = data;
 
   useEffect(() => {

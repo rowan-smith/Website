@@ -2,7 +2,10 @@ import { useSiteData } from '../../context/SiteDataContext';
 
 export default function ContactFooter() {
   const { data } = useSiteData();
-  if (!data) return null;
+  if (!data) {
+    return null;
+  }
+
   const { resume } = data;
 
   return (
@@ -12,9 +15,13 @@ export default function ContactFooter() {
         <p className="contact-sub">
           I'm open to new opportunities. Feel free to reach out!
         </p>
-        <a href={resume.linkedin} target="_blank" rel="noopener noreferrer" className="contact-btn">
-          Connect on LinkedIn
-        </a>
+
+        <div className="contact-actions">
+          <a href={resume.linkedin} target="_blank" rel="noopener noreferrer" className="contact-btn">
+            Connect on LinkedIn
+          </a>
+        </div>
+
         <div className="contact-socials">
           <a href={resume.github} target="_blank" rel="noopener noreferrer">
             GitHub
@@ -24,6 +31,7 @@ export default function ContactFooter() {
             LinkedIn
           </a>
         </div>
+
         <p className="contact-copy">© {new Date().getFullYear()} {resume.name}</p>
       </div>
     </footer>
