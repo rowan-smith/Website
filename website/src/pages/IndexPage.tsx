@@ -38,20 +38,20 @@ export default function IndexPage() {
 
       <main id="main-content">
         <PageSection shade="muted">
-          <div className="grid grid-cols-2 gap-6 max-sm:grid-cols-1">
+          <div className="grid grid-cols-2 gap-6 max-sm:grid-cols-1 *:min-w-0">
             <RouterLinkButton
               to="/resume"
               variant="ghost"
-              className="block h-auto w-full p-0 text-left"
+              className="block h-auto w-full min-w-0 p-0 text-left whitespace-normal"
             >
-              <Card className="h-full transition-transform hover:-translate-y-1 hover:shadow-lg">
+              <Card className="h-full w-full min-w-0 transition-transform hover:-translate-y-1 hover:shadow-lg">
                 <CardContent className="flex h-full flex-col gap-4 p-9">
                   <div className="flex items-center justify-between">
                     <span className="text-[32px] leading-none" aria-hidden="true">📄</span>
                     <span className="text-[22px] opacity-40" aria-hidden="true">→</span>
                   </div>
                   <CardTitle className="text-2xl">Resume</CardTitle>
-                  <CardDescription className="text-[15px] leading-relaxed">
+                  <CardDescription className="text-pretty text-[15px] leading-relaxed">
                     {home.resumeCardDescription}
                   </CardDescription>
                   <div className="mt-auto flex flex-wrap gap-2">
@@ -68,16 +68,16 @@ export default function IndexPage() {
             <RouterLinkButton
               to="/projects"
               variant="ghost"
-              className="block h-auto w-full p-0 text-left"
+              className="block h-auto w-full min-w-0 p-0 text-left whitespace-normal"
             >
-              <Card className="h-full border-indigo-500/30 bg-indigo-950 text-indigo-100 transition-transform hover:-translate-y-1 hover:shadow-lg">
+              <Card className="h-full w-full min-w-0 border-indigo-500/30 bg-indigo-950 text-indigo-100 transition-transform hover:-translate-y-1 hover:shadow-lg">
                 <CardContent className="flex h-full flex-col gap-4 p-9">
                   <div className="flex items-center justify-between">
                     <span className="text-[32px] leading-none" aria-hidden="true">🚀</span>
                     <span className="text-[22px] opacity-40" aria-hidden="true">→</span>
                   </div>
                   <CardTitle className="text-2xl text-indigo-100">Projects</CardTitle>
-                  <CardDescription className="text-[15px] leading-relaxed text-indigo-300">
+                  <CardDescription className="text-pretty text-[15px] leading-relaxed text-indigo-300">
                     {home.projectsCardDescription}
                   </CardDescription>
                   <div className="mt-auto flex flex-wrap gap-2">
