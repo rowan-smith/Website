@@ -2,6 +2,7 @@ import type { LeadershipItem } from '@/types';
 
 import { PageSection } from '../common/PageSection';
 import { TimelineEntry } from '../common/TimelineEntry';
+import { TimelineList } from '../common/TimelineList';
 
 type LeadershipSectionProps = {
   leadership?: LeadershipItem[];
@@ -18,11 +19,7 @@ export default function LeadershipSection({ leadership }: LeadershipSectionProps
 
   return (
     <PageSection id="leadership" title="Leadership / Volunteer Experience">
-      <div className="relative">
-        <span
-          className="absolute top-1.25 bottom-0 left-0 w-0.5 -translate-x-px bg-border"
-          aria-hidden="true"
-        />
+      <TimelineList>
         {leadership.map((role, index) => (
           <TimelineEntry
             key={leadershipKey(role)}
@@ -33,7 +30,7 @@ export default function LeadershipSection({ leadership }: LeadershipSectionProps
             bullets={role.bullets}
           />
         ))}
-      </div>
+      </TimelineList>
     </PageSection>
   );
 }

@@ -2,6 +2,7 @@ import type { ExperienceItem } from '@/types';
 
 import { PageSection } from '../common/PageSection';
 import { TimelineEntry } from '../common/TimelineEntry';
+import { TimelineList } from '../common/TimelineList';
 
 type ExperienceSectionProps = {
   experience: ExperienceItem[];
@@ -14,11 +15,7 @@ function experienceKey(job: ExperienceItem): string {
 export default function ExperienceSection({ experience }: ExperienceSectionProps) {
   return (
     <PageSection id="experience" title="Relevant Experience" shade="muted">
-      <div className="relative">
-        <span
-          className="absolute top-1.25 bottom-0 left-0 w-0.5 -translate-x-px bg-border"
-          aria-hidden="true"
-        />
+      <TimelineList>
         {experience.map((job, index) => (
           <TimelineEntry
             key={experienceKey(job)}
@@ -36,7 +33,7 @@ export default function ExperienceSection({ experience }: ExperienceSectionProps
             bullets={job.bullets}
           />
         ))}
-      </div>
+      </TimelineList>
     </PageSection>
   );
 }
