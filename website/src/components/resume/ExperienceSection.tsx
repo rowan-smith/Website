@@ -1,22 +1,28 @@
-import { useSiteData } from '../../context/SiteDataContext';
+import type { ExperienceItem } from '@/types';
+
 import { PageSection } from '../common/PageSection';
 import { TimelineEntry } from '../common/TimelineEntry';
-import { TimelineList } from '../common/TimelineList';
 
-export default function ExperienceSection() {
-  const { data } = useSiteData();
+type ExperienceSectionProps = {
+  experience: ExperienceItem[];
+};
 
-  if (!data) {
-      return null;
-  }
+function experienceKey(job: ExperienceItem): string {
+  return `${job.company}-${job.title}-${job.period}`;
+}
 
+export default function ExperienceSection({ experience }: ExperienceSectionProps) {
   return (
     <PageSection id="experience" title="Relevant Experience" shade="muted">
-      <TimelineList>
-        {data.resume.experience.map((job, i) => (
+      <div className="relative">
+        <span
+          className="absolute top-1.25 bottom-0 left-0 w-0.5 -translate-x-px bg-border"
+          aria-hidden="true"
+        />
+        {experience.map((job, index) => (
           <TimelineEntry
-            key={i}
-            isLast={i === data.resume.experience.length - 1}
+            key={experienceKey(job)}
+            isLast={index === experience.length - 1}
             title={job.title}
             subtitle={
               <>
@@ -30,7 +36,7 @@ export default function ExperienceSection() {
             bullets={job.bullets}
           />
         ))}
-      </TimelineList>
+      </div>
     </PageSection>
   );
 }

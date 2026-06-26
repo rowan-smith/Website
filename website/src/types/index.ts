@@ -1,5 +1,8 @@
 export type { EducationItem } from './EducationItem';
 export type { ExperienceItem } from './ExperienceItem';
+export type { HomeData } from './HomeData';
+export type { HomeStat } from './HomeStat';
+export type { HomeStatDerive } from './HomeStatDerive';
 export type { LeadershipItem } from './LeadershipItem';
 export type { ResumeData } from './ResumeData';
 export type { SiteData } from './SiteData';

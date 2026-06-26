@@ -1,5 +1,6 @@
-import { createContext, type ReactNode,useContext, useEffect, useState } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
 
+import { parseSiteData } from '@/lib/parseSiteData';
 import type { SiteData } from '@/types';
 
 interface SiteDataContextValue {
@@ -27,13 +28,19 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
           throw new Error(`Failed to load site data: ${response.status}`);
         }
 
-        const json = (await response.json()) as SiteData;
+        const json: unknown = await response.json();
+        const parsed = parseSiteData(json);
 
-        setData(json);
+        setData(parsed);
 
       } catch (err) {
         if (!controller.signal.aborted) {
-          setError(err instanceof Error ? err.message : 'Unknown error');
+          if (err instanceof Error) {
+            setError(err.message);
+
+          } else {
+            setError('Unknown error');
+          }
         }
 
       } finally {

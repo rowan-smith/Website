@@ -1,21 +1,24 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import type { EducationItem } from '@/types';
 
-import { useSiteData } from '../../context/SiteDataContext';
 import { PageSection } from '../common/PageSection';
 
-export default function EducationSection() {
-  const { data } = useSiteData();
+type EducationSectionProps = {
+  education: EducationItem[];
+};
 
-  if (!data) {
-      return null;
-  }
+function educationKey(edu: EducationItem): string {
+  return `${edu.school}-${edu.degree}-${edu.period}`;
+}
 
+export default function EducationSection({ education }: EducationSectionProps) {
   return (
     <PageSection id="education" title="Education">
       <div className="flex flex-col gap-4">
-        {data.resume.education.map((edu, i) => (
-          <Card key={i}>
+
+        {education.map((edu) => (
+          <Card key={educationKey(edu)}>
             <CardContent className="flex flex-wrap items-start justify-between gap-4 p-7 max-sm:p-5">
               <div>
                 <CardTitle className="mb-1 text-[17px]">{edu.degree}</CardTitle>
@@ -24,6 +27,7 @@ export default function EducationSection() {
                   <span>&nbsp;·&nbsp;{edu.location}</span>
                 </CardDescription>
               </div>
+
               <Badge variant="outline" className="shrink-0 rounded-full px-2.5 py-1 text-xs font-medium">
                 {edu.period}
               </Badge>

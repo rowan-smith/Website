@@ -1,14 +1,18 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { RouteFallback } from '@/components/common/RouteFallback';
+import { SkipLink } from '@/components/common/SkipLink';
+import { SiteNav } from '@/components/layout/SiteNav';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useSiteData } from '@/context/SiteDataContext';
 import { pageContainerClass } from '@/lib/pageContainer';
+import IndexPage from '@/pages/IndexPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 
-import SiteNav from './components/layout/SiteNav';
-import { useSiteData } from './context/SiteDataContext';
-import IndexPage from './pages/IndexPage';
-import ProjectsPage from './pages/ProjectsPage';
-import ResumePage from './pages/ResumePage';
+const ResumePage = lazy(() => import('@/pages/ResumePage'));
+const ProjectsPage = lazy(() => import('@/pages/ProjectsPage'));
 
 export default function AppContent() {
   const { loading, error } = useSiteData();
@@ -36,12 +40,16 @@ export default function AppContent() {
 
   return (
     <>
+      <SkipLink />
       <SiteNav />
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/resume" element={<ResumePage />} />
-        <Route path="/projects" element={<ProjectsPage />} />
-      </Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/" element={<IndexPage />} />
+          <Route path="/resume" element={<ResumePage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }

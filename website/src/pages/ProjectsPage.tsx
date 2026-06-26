@@ -1,5 +1,8 @@
 import { useMemo, useState } from 'react';
 
+import { ExternalLink } from '@/components/common/ExternalLink';
+import { PageHero } from '@/components/common/PageHero';
+import { RouterLinkButton } from '@/components/common/RouterLinkButton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
@@ -9,79 +12,73 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from '@/components/ui/empty';
+import { PROJECT_STATUS_MAP } from '@/constants/projectStatus';
+import { usePageTitle } from '@/hooks/usePageTitle';
+import { useRequiredSiteData } from '@/hooks/useRequiredSiteData';
 import { pageContainerClass } from '@/lib/pageContainer';
 import { cn } from '@/lib/utils';
-
-import { ExternalLink } from '../components/common/ExternalLink';
-import { PageHero } from '../components/common/PageHero';
-import { RouterLinkButton } from '../components/common/RouterLinkButton';
-import { PROJECT_STATUS_MAP } from '../constants/projectStatus';
-import { useSiteData } from '../context/SiteDataContext';
 import type { SiteProject } from '@/types';
 
 export default function ProjectsPage() {
-  const { data } = useSiteData();
+  const { funProjects: projects } = useRequiredSiteData();
   const [statusFilter, setStatusFilter] = useState<SiteProject['status'] | 'all'>('all');
   const [tagFilter, setTagFilter] = useState<string | null>(null);
 
-  const projects = useMemo(() => data?.funProjects ?? [], [data?.funProjects]);
+  usePageTitle('Projects');
 
   const allStatuses = useMemo(
-    () => Array.from(new Set(projects.map((p) => p.status))),
+    () => Array.from(new Set(projects.map((project) => project.status))),
     [projects],
   );
 
   const allTags = useMemo(() => {
     const tags = new Set<string>();
 
-    projects.forEach((p) => {
-      p.tech.forEach((t) => tags.add(t));
-      p.keywords.forEach((k) => tags.add(k));
+    projects.forEach((project) => {
+      project.tech.forEach((tech) => tags.add(tech));
+      project.keywords.forEach((keyword) => tags.add(keyword));
     });
 
     return Array.from(tags);
   }, [projects]);
 
   const filtered = useMemo(() => {
-    return projects.filter((p) => {
-      const statusOk = statusFilter === 'all' || p.status === statusFilter;
-      const tagOk = tagFilter === null || p.tech.includes(tagFilter) || p.keywords.includes(tagFilter);
+    return projects.filter((project) => {
+      const statusOk = statusFilter === 'all' || project.status === statusFilter;
+      const tagOk = tagFilter === null || project.tech.includes(tagFilter) || project.keywords.includes(tagFilter);
 
       return statusOk && tagOk;
     });
   }, [projects, statusFilter, tagFilter]);
 
-  if (!data) {
-    return null;
-  }
-
   const toggleTag = (tag: string) => setTagFilter((prev) => (prev === tag ? null : tag));
 
   return (
-    <div>
+    <>
       <PageHero className="py-16 max-sm:py-13">
         <div className={pageContainerClass}>
-          <CardTitle className="mb-2.5 text-5xl font-bold tracking-tight text-white max-sm:text-4xl">
+          <h1 className="mb-2.5 text-5xl font-bold tracking-tight text-white max-sm:text-4xl">
             Projects
-          </CardTitle>
-          <CardDescription className="text-[17px] text-slate-400 max-sm:text-base">
+          </h1>
+          <p className="text-[17px] text-slate-400 max-sm:text-base">
             Side projects, experiments, and things I build for fun.
-          </CardDescription>
+          </p>
         </div>
       </PageHero>
 
-      <div className={cn(pageContainerClass, 'py-12 pb-20 max-sm:py-8 max-sm:pb-14')}>
+      <main id="main-content" className={cn(pageContainerClass, 'py-12 pb-20 max-sm:py-8 max-sm:pb-14')}>
         <Card className="mb-9 max-sm:mb-6">
           <CardContent className="flex flex-col gap-3.5 p-5 max-sm:p-4">
             <div className="flex flex-wrap items-center gap-3 max-sm:flex-col max-sm:items-start max-sm:gap-2">
               <Badge variant="outline" className="min-w-12 rounded-full text-xs font-semibold tracking-wide uppercase">
                 Status
               </Badge>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
                 <Button
                   size="sm"
                   variant={statusFilter === 'all' ? 'default' : 'outline'}
                   className="rounded-full"
+                  aria-pressed={statusFilter === 'all'}
                   onClick={() => setStatusFilter('all')}
                 >
                   All
@@ -92,6 +89,7 @@ export default function ProjectsPage() {
                     size="sm"
                     variant={statusFilter === status ? 'default' : 'outline'}
                     className="rounded-full"
+                    aria-pressed={statusFilter === status}
                     onClick={() => setStatusFilter(status)}
                   >
                     {PROJECT_STATUS_MAP[status].label}
@@ -104,13 +102,14 @@ export default function ProjectsPage() {
               <Badge variant="outline" className="min-w-12 rounded-full text-xs font-semibold tracking-wide uppercase">
                 Tags
               </Badge>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by tag">
                 {allTags.map((tag) => (
                   <Button
                     key={tag}
                     size="sm"
                     variant={tagFilter === tag ? 'default' : 'outline'}
                     className="rounded-full"
+                    aria-pressed={tagFilter === tag}
                     onClick={() => toggleTag(tag)}
                   >
                     {tag}
@@ -130,7 +129,7 @@ export default function ProjectsPage() {
                 <Card key={proj.name} className="transition-transform hover:-translate-y-0.5 hover:shadow-lg">
                   <CardContent className="flex flex-col gap-3 p-7 max-sm:p-5">
                     <div className="flex items-center justify-between">
-                      <span className="text-[28px] leading-none">{proj.emoji}</span>
+                      <span className="text-[28px] leading-none" aria-hidden="true">{proj.emoji}</span>
                       <Badge variant="outline" className={cn('rounded-full', statusClassName)}>
                         {label}
                       </Badge>
@@ -204,7 +203,7 @@ export default function ProjectsPage() {
             </RouterLinkButton>
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

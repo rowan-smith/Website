@@ -1,19 +1,17 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import type { SiteProject } from '@/types';
 
-import { useSiteData } from '../../context/SiteDataContext';
 import { ExternalLink } from '../common/ExternalLink';
 import { PageSection } from '../common/PageSection';
 
-export default function ProjectsSection() {
-  const { data } = useSiteData();
+type ProjectsSectionProps = {
+  projects: SiteProject[];
+};
 
-  if (!data) {
-    return null;
-  }
-
-  const resumeProjects = data.funProjects.filter((project) => project.highlightOnResume);
+export default function ProjectsSection({ projects }: ProjectsSectionProps) {
+  const resumeProjects = projects.filter((project) => project.highlightOnResume);
 
   if (resumeProjects.length === 0) {
     return null;

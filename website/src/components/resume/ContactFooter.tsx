@@ -1,29 +1,25 @@
 import { Button } from '@/components/ui/button';
-import { CardDescription, CardTitle } from '@/components/ui/card';
+import { CardDescription } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { pageContainerClass } from '@/lib/pageContainer';
 import { cn } from '@/lib/utils';
+import type { ResumeData } from '@/types';
 
-import { useSiteData } from '../../context/SiteDataContext';
 import { ExternalLink } from '../common/ExternalLink';
 import { PageHero } from '../common/PageHero';
 
-export default function ContactFooter() {
-  const { data } = useSiteData();
+type ContactFooterProps = {
+  resume: ResumeData;
+};
 
-  if (!data) {
-    return null;
-  }
-
-  const { resume } = data;
-
+export default function ContactFooter({ resume }: ContactFooterProps) {
   return (
     <footer id="contact">
       <PageHero className="max-sm:py-15">
         <div className={cn(pageContainerClass, 'flex flex-col items-center gap-3.5')}>
-          <CardTitle className="text-[34px] font-bold tracking-tight text-white max-sm:text-[26px]">
+          <h2 className="text-[34px] font-bold tracking-tight text-white max-sm:text-[26px]">
             Get In Touch
-          </CardTitle>
+          </h2>
           <CardDescription className="max-w-140 text-base text-balance text-slate-400">
             I'm open to new opportunities. Feel free to reach out!
           </CardDescription>

@@ -1,29 +1,39 @@
-import { useSiteData } from '../../context/SiteDataContext';
+import type { LeadershipItem } from '@/types';
+
 import { PageSection } from '../common/PageSection';
 import { TimelineEntry } from '../common/TimelineEntry';
-import { TimelineList } from '../common/TimelineList';
 
-export default function LeadershipSection() {
-  const { data } = useSiteData();
+type LeadershipSectionProps = {
+  leadership?: LeadershipItem[];
+};
 
-  if (!data?.resume.leadership?.length) {
+function leadershipKey(role: LeadershipItem): string {
+  return `${role.organization}-${role.title}-${role.period}`;
+}
+
+export default function LeadershipSection({ leadership }: LeadershipSectionProps) {
+  if (!leadership?.length) {
     return null;
   }
 
   return (
     <PageSection id="leadership" title="Leadership / Volunteer Experience">
-      <TimelineList>
-        {data.resume.leadership.map((role, i) => (
+      <div className="relative">
+        <span
+          className="absolute top-1.25 bottom-0 left-0 w-0.5 -translate-x-px bg-border"
+          aria-hidden="true"
+        />
+        {leadership.map((role, index) => (
           <TimelineEntry
-            key={i}
-            isLast={i === data.resume.leadership!.length - 1}
+            key={leadershipKey(role)}
+            isLast={index === leadership.length - 1}
             title={role.title}
             subtitle={<span className="font-medium text-primary">{role.organization}</span>}
             period={role.period}
             bullets={role.bullets}
           />
         ))}
-      </TimelineList>
+      </div>
     </PageSection>
   );
 }

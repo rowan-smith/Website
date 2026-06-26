@@ -105,6 +105,8 @@ export default defineConfig([
       'curly': ['error', 'all'],
 
       // General
+      'no-var': 'error',
+      'prefer-const': 'error',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'max-classes-per-file': ['error', 1],
       'local/one-export-per-file': [

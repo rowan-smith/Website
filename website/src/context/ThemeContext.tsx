@@ -1,15 +1,24 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
+import { resolveAssetPath } from '@/lib/resolveAssetPath';
+
 type ThemeMode = 'light' | 'dark' | 'system';
 type ResolvedTheme = 'light' | 'dark';
 
 type ThemeContextValue = {
+  mode: ThemeMode;
   theme: ResolvedTheme;
   toggleTheme: () => void;
 };
 
 const THEME_STORAGE_KEY = 'site-theme-mode';
+
+const THEME_CYCLE: Record<ThemeMode, ThemeMode> = {
+  system: 'light',
+  light: 'dark',
+  dark: 'system',
+};
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
@@ -44,7 +53,7 @@ function applyTheme(theme: ResolvedTheme) {
   const favicon = document.getElementById('app-favicon') as HTMLLinkElement | null;
 
   if (favicon) {
-    favicon.href = theme === 'dark' ? '/favicon-dark.svg' : '/favicon.svg';
+    favicon.href = resolveAssetPath(theme === 'dark' ? 'favicon-dark.svg' : 'favicon.svg');
   }
 }
 
@@ -76,10 +85,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<ThemeContextValue>(
     () => ({
+      mode,
       theme,
-      toggleTheme: () => setMode(theme === 'dark' ? 'light' : 'dark'),
+      toggleTheme: () => setMode((current) => THEME_CYCLE[current]),
     }),
-    [theme],
+    [mode, theme],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

@@ -1,20 +1,18 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import type { ResumeData } from '@/types';
 
-import { useSiteData } from '../../context/SiteDataContext';
 import { PageSection } from '../common/PageSection';
 
-export default function SkillsSection() {
-  const { data } = useSiteData();
+type SkillsSectionProps = {
+  skills: ResumeData['skills'];
+};
 
-  if (!data) {
-      return null;
-  }
-
+export default function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <PageSection id="skills" title="Skills" shade="muted">
       <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4 max-sm:grid-cols-1">
-        {Object.entries(data.resume.skills).map(([category, items]) => (
+        {Object.entries(skills).map(([category, items]) => (
           <Card key={category}>
             <CardContent className="p-5">
               <Badge

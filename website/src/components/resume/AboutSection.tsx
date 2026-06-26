@@ -1,19 +1,17 @@
 import { CardDescription } from '@/components/ui/card';
+import type { ResumeData } from '@/types';
 
-import { useSiteData } from '../../context/SiteDataContext';
 import { PageSection } from '../common/PageSection';
 
-export default function AboutSection() {
-  const { data } = useSiteData();
+type AboutSectionProps = {
+  about: ResumeData['about'];
+};
 
-  if (!data) {
-    return null;
-  }
-
+export default function AboutSection({ about }: AboutSectionProps) {
   return (
     <PageSection id="about" title="About">
       <CardDescription className="max-w-185 text-[17px] leading-relaxed max-sm:text-base">
-        {data.resume.about}
+        {about}
       </CardDescription>
     </PageSection>
   );

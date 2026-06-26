@@ -1,4 +1,4 @@
-import { Menu, Moon, Sun, X } from 'lucide-react';
+import { Menu, Monitor, Moon, Sun, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -7,11 +7,12 @@ import { ExternalLink } from '@/components/common/ExternalLink';
 import { RouterLinkButton } from '@/components/common/RouterLinkButton';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useTheme } from '@/context/ThemeContext';
+import { useRequiredSiteData } from '@/hooks/useRequiredSiteData';
 import { pageContainerClass } from '@/lib/pageContainer';
+import { resolveAssetPath } from '@/lib/resolveAssetPath';
+import { getThemeToggleLabel } from '@/lib/themeToggleLabel';
 import { cn } from '@/lib/utils';
-
-import { useSiteData } from '../../context/SiteDataContext';
-import { useTheme } from '../../context/ThemeContext';
 
 const RESUME_SECTIONS = [
   { label: 'About', hash: 'about' },
@@ -25,29 +26,29 @@ const RESUME_SECTIONS = [
 
 const navButtonClass = 'h-auto rounded-md px-2.5 py-1.5 text-[13.5px] font-medium text-slate-400 hover:bg-white/10 hover:text-white';
 
-export default function SiteNav() {
+export function SiteNav() {
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const onResume = pathname === '/resume';
-  const { theme, toggleTheme } = useTheme();
-  const { data } = useSiteData();
-
-  if (!data) {
-    return null;
-  }
-
-  const { resume } = data;
+  const { mode, theme, toggleTheme } = useTheme();
+  const { resume } = useRequiredSiteData();
   const closeMenu = () => setMenuOpen(false);
+  const themeLabel = getThemeToggleLabel(mode);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/95 backdrop-blur-md">
+    <nav aria-label="Main navigation" className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/95 backdrop-blur-md">
       <div className={cn(pageContainerClass, 'relative flex h-15 items-center justify-between')}>
         <Button
           variant="ghost"
           className="h-auto gap-2.5 px-0 text-white hover:bg-transparent hover:text-slate-200"
           render={<Link to="/" />}
         >
-          <img className="size-8 object-contain" src="/favicon-dark.svg" alt="" aria-hidden="true" />
+          <img
+            className="size-8 object-contain"
+            src={resolveAssetPath('favicon-dark.svg')}
+            alt=""
+            aria-hidden="true"
+          />
           <span className="text-[15px] font-semibold tracking-tight">{resume.name}</span>
         </Button>
 
@@ -57,10 +58,16 @@ export default function SiteNav() {
           size="icon"
           className="ml-auto border-white/20 bg-white/5 text-slate-100 hover:bg-white/10 hover:text-white"
           onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          aria-label={themeLabel}
+          title={themeLabel}
         >
-          {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          {mode === 'system' ? (
+            <Monitor className="size-4" />
+          ) : theme === 'dark' ? (
+            <Sun className="size-4" />
+          ) : (
+            <Moon className="size-4" />
+          )}
         </Button>
 
         <Button

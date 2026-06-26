@@ -9,6 +9,7 @@ export interface ResumeData {
   github: string;
   linkedin: string;
   about: string;
+  profileImage?: string;
   experience: ExperienceItem[];
   education: EducationItem[];
   leadership?: LeadershipItem[];

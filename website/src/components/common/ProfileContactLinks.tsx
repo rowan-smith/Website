@@ -9,7 +9,7 @@ type ProfileContactLinksProps = {
   linkedin: string;
 };
 
-export default function ProfileContactLinks({ location, github, linkedin }: ProfileContactLinksProps) {
+export function ProfileContactLinks({ location, github, linkedin }: ProfileContactLinksProps) {
   return (
     <>
       <CardDescription className="text-sm text-slate-400">{location}</CardDescription>

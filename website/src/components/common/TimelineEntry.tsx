@@ -14,7 +14,7 @@ type TimelineEntryProps = {
 
 export function TimelineEntry({ title, subtitle, period, bullets, isLast = false }: TimelineEntryProps) {
   return (
-    <article className={cn('relative border-l-2 border-border pb-10 pl-8 max-sm:pb-7 max-sm:pl-5', isLast && 'border-transparent pb-0',)}>
+    <article className={cn('relative border-l-2 border-border pb-10 pl-8 max-sm:pb-7 max-sm:pl-5', isLast && 'border-transparent pb-0')}>
       <span
         className="absolute top-0 -left-8 z-10 size-2.5 -translate-x-1/2 rounded-full border-2 border-background bg-primary max-sm:-left-5"
         aria-hidden="true"
@@ -32,9 +32,9 @@ export function TimelineEntry({ title, subtitle, period, bullets, isLast = false
       </div>
 
       <ul className="m-0 flex list-none flex-col gap-2 p-0">
-        {bullets.map((bullet, index) => (
+        {bullets.map((bullet) => (
           <li
-            key={index}
+            key={bullet}
             className={cn(
               'relative pl-4 text-[15px] leading-relaxed text-muted-foreground',
               "before:absolute before:left-0 before:top-1.75 before:text-[10px] before:text-primary before:content-['▸']",

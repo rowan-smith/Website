@@ -7,18 +7,16 @@ type ProfileAvatarProps = {
   className?: string;
 };
 
-export default function ProfileAvatar(props: ProfileAvatarProps) {
-  const imageSrc = props.imageSrc ?? '/data/profile-image.jpg';
-
-  const initials = props.name
+export function ProfileAvatar({ name, imageSrc, className }: ProfileAvatarProps) {
+  const initials = name
     .split(' ')
     .map((part) => part[0])
     .join('');
 
   return (
-    <Avatar className={cn('mb-2 size-40 border-4 border-indigo-500/25 shadow-[0_12px_30px_rgba(99,102,241,0.4)] max-sm:size-36', props.className,)}>
+    <Avatar className={cn('mb-2 size-40 border-4 border-indigo-500/25 shadow-[0_12px_30px_rgba(99,102,241,0.4)] max-sm:size-36', className)}>
       {imageSrc && (
-        <AvatarImage src={imageSrc} alt={`${props.name} profile`} />
+        <AvatarImage src={imageSrc} alt={`${name} profile`} />
       )}
       <AvatarFallback className="bg-linear-to-br from-blue-500 to-indigo-500 text-5xl font-bold text-white max-sm:text-4xl">
         {initials}

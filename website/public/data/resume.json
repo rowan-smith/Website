@@ -5,6 +5,7 @@
     "location": "Townsville, Queensland",
     "github": "https://github.com/rowan-smith",
     "linkedin": "https://linkedin.com/in/rowanpsmith",
+    "profileImage": "data/profile-image.jpg",
     "about": "Software developer with over three years of professional experience building and maintaining internal financial systems using C#, ASP.NET, TypeScript, and SQL. Experienced in API integrations, modern frontend frameworks, and Agile development practices.",
     "experience": [
       {
@@ -72,6 +73,17 @@
       "Tools & Practices": ["Git Version Control", "REST APIs", "Agile / Scrum", "CQRS"],
       "Databases": ["Microsoft SQL Server", "PostgreSQL"]
     }
+  },
+  "home": {
+    "resumeCardDescription": "3+ years of professional experience, education, and technical skills building internal financial systems and modern web applications.",
+    "projectsCardDescription": "Personal experiments, weekend hacks, and side projects — things I build because they're fun or scratching my own itch.",
+    "resumeCardChips": ["Experience", "Education", "Skills"],
+    "stats": [
+      { "value": "3+", "label": "Years Experience" },
+      { "derive": "experienceCount", "label": "Employers" },
+      { "derive": "projectCount", "label": "Personal Projects" },
+      { "derive": "technologyCount", "label": "Technologies" }
+    ]
   },
   "funProjects": [
     {

@@ -2,19 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link id="app-favicon" rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
+    <link id="app-favicon" rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any" />
     <script>
       (function () {
+        function assetPath(path) {
+          const base = document.querySelector('base');
+          let prefix = base ? base.getAttribute('href') || '/' : '/';
+
+          if (!prefix.endsWith('/')) {
+            prefix += '/';
+          }
+
+          return prefix + path.replace(/^\//, '');
+        }
+
         const mode = localStorage.getItem('site-theme-mode') || 'system';
         const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const theme = mode === 'system' ? (isDark ? 'dark' : 'light') : mode;
 
-        document.documentElement.dataset.theme = theme;
+        document.documentElement.classList.toggle('dark', theme === 'dark');
         document.documentElement.style.colorScheme = theme;
 
         const favicon = document.getElementById('app-favicon');
+
         if (favicon) {
-          favicon.href = theme === 'dark' ? '/favicon-dark.svg' : '/favicon.svg';
+          favicon.href = assetPath(theme === 'dark' ? 'favicon-dark.svg' : 'favicon.svg');
         }
       })();
     </script>
@@ -23,14 +35,9 @@
       name="description"
       content="Professional portfolio for Rowan Smith featuring experience, resume highlights, and selected projects."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <title>Rowan Smith</title>
     <script>
+      // Restore path saved by 404.html redirect (GitHub Pages SPA support)
       (function () {
         const redirect = sessionStorage.getItem('redirect');
 
@@ -46,4 +53,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
