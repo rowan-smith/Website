@@ -17,7 +17,7 @@ import { PageHero } from '../components/common/PageHero';
 import { RouterLinkButton } from '../components/common/RouterLinkButton';
 import { PROJECT_STATUS_MAP } from '../constants/projectStatus';
 import { useSiteData } from '../context/SiteDataContext';
-import type { SiteProject } from '../types';
+import type { SiteProject } from '@/types';
 
 export default function ProjectsPage() {
   const { data } = useSiteData();

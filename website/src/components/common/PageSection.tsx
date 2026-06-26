@@ -19,22 +19,18 @@ const sectionShadeClass: Record<SectionShade, string> = {
   muted: 'bg-muted/50',
 };
 
-export function PageSection({ id, title, shade = 'none', children, className }: PageSectionProps) {
+export function PageSection(props: PageSectionProps) {
+  const shade = props.shade ?? 'none';
+
   return (
-    <section
-      id={id}
-      className={cn('py-18 max-sm:py-12', sectionShadeClass[shade], className)}
-    >
+    <section id={props.id} className={cn('py-18 max-sm:py-12', sectionShadeClass[shade], props.className)}>
       <div className={pageContainerClass}>
-        {title ? (
-          <Badge
-            variant="outline"
-            className="mb-9 rounded-full px-3 py-1 text-[11.5px] font-bold tracking-[1.6px] text-primary uppercase max-sm:mb-6"
-          >
-            {title}
-          </Badge>
-        ) : null}
-        {children}
+        {props.title && (
+            <Badge variant="outline" className="mb-9 rounded-full px-3 py-1 text-[11.5px] font-bold tracking-[1.6px] text-primary uppercase max-sm:mb-6">
+              {props.title}
+            </Badge>
+        )}
+        {props.children}
       </div>
     </section>
   );

@@ -27,19 +27,16 @@ const badgeVariants = cva(
   },
 );
 
-function Badge({
-  className,
-  variant = 'default',
-  render,
-  ...props
-}: useRender.ComponentProps<'span'> & VariantProps<typeof badgeVariants>) {
+function Badge(props: useRender.ComponentProps<'span'> & VariantProps<typeof badgeVariants>) {
+  const { className, variant = 'default', render, ...badgeProps } = props;
+
   return useRender({
     defaultTagName: 'span',
     props: mergeProps<'span'>(
-      {
-        className: cn(badgeVariants({ variant }), className),
-      },
-      props,
+        {
+          className: cn(badgeVariants({ variant }), className),
+        },
+        badgeProps,
     ),
     render,
     state: {

@@ -12,23 +12,19 @@ type RouterLinkButtonProps = {
   onClick?: () => void;
 };
 
-export function RouterLinkButton({
-  to,
-  children,
-  className,
-  variant = 'ghost',
-  size = 'default',
-  onClick,
-}: RouterLinkButtonProps) {
+export function RouterLinkButton(props: RouterLinkButtonProps) {
+  const variant = props.variant ?? 'ghost';
+  const size = props.size ?? 'default';
+
   return (
     <Button
       variant={variant}
       size={size}
-      className={className}
-      onClick={onClick}
-      render={<Link to={to} />}
+      className={props.className}
+      onClick={props.onClick}
+      render={<Link to={props.to} />}
     >
-      {children}
+      {props.children}
     </Button>
   );
 }

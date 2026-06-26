@@ -1,4 +1,4 @@
-import type { SiteProject } from '../types';
+import type { SiteProject } from '@/types';
 
 export const PROJECT_STATUS_MAP: Record<SiteProject['status'], { label: string; className: string }> = {
   active: {

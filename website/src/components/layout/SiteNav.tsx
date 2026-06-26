@@ -121,16 +121,19 @@ export default function SiteNav() {
                   Resume
                 </RouterLinkButton>
               </li>
+
               <li>
                 <RouterLinkButton to="/projects" variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
                   Projects
                 </RouterLinkButton>
               </li>
+
               <li>
                 <ExternalLink href={resume.github} className={navButtonClass} onClick={closeMenu}>
                   GitHub
                 </ExternalLink>
               </li>
+
               <li>
                 <ExternalLink href={resume.linkedin} className={navButtonClass} onClick={closeMenu}>
                   LinkedIn

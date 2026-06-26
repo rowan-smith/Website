@@ -12,7 +12,7 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import { oneExportPerFile } from './eslint/one-export-per-file.js';
 
 const paddingBetweenStatements = [
-  'error',
+    'error',
   { blankLine: 'always', prev: 'directive', next: '*' },
   { blankLine: 'any', prev: 'directive', next: 'directive' },
   { blankLine: 'always', prev: 'import', next: '*' },

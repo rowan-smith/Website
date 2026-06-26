@@ -9,19 +9,15 @@ type ExternalLinkProps = Omit<ComponentProps<'a'>, 'children'> & {
   size?: ComponentProps<typeof Button>['size'];
 };
 
-export function ExternalLink({
-  children,
-  className,
-  size = 'sm',
-  href,
-  ...props
-}: ExternalLinkProps) {
+export function ExternalLink(props: ExternalLinkProps) {
+  const { children, className, size = 'sm', href, ...externalLinkProps } = props;
+
   return (
     <Button
       variant="link"
       size={size}
       className={cn('h-auto px-0', className)}
-      render={<a href={href} target="_blank" rel="noopener noreferrer" {...props} />}
+      render={<a href={href} target="_blank" rel="noopener noreferrer" {...externalLinkProps} />}
     >
       {children}
     </Button>

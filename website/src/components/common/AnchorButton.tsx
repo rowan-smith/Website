@@ -11,23 +11,19 @@ type AnchorButtonProps = {
   onClick?: () => void;
 };
 
-export function AnchorButton({
-  href,
-  children,
-  className,
-  variant = 'ghost',
-  size = 'default',
-  onClick,
-}: AnchorButtonProps) {
+export function AnchorButton(props: AnchorButtonProps) {
+  const variant = props.variant ?? 'ghost';
+  const size = props.size ?? 'default';
+
   return (
     <Button
       variant={variant}
       size={size}
-      className={className}
-      onClick={onClick}
-      render={<a href={href} />}
+      className={props.className}
+      onClick={props.onClick}
+      render={<a href={props.href} />}
     >
-      {children}
+      {props.children}
     </Button>
   );
 }

@@ -1,6 +1,6 @@
 import { createContext, type ReactNode,useContext, useEffect, useState } from 'react';
 
-import type { SiteData } from '../types';
+import type { SiteData } from '@/types';
 
 interface SiteDataContextValue {
   data: SiteData | null;

@@ -40,17 +40,14 @@ const buttonVariants = cva(
   },
 );
 
-function Button({
-  className,
-  variant = 'default',
-  size = 'default',
-  ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+function Button(props: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  const { className, variant = 'default', size = 'default', ...buttonProps } = props;
+
   return (
     <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
+      {...buttonProps}
     />
   );
 }
