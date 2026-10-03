@@ -1,13 +1,26 @@
 {
   "resume": {
     "name": "Rowan Smith",
-    "title": "Software Developer",
-    "location": "Townsville, Queensland",
+    "title": "Software Engineer",
+    "location": "Newcastle, New South Wales",
     "github": "https://github.com/rowan-smith",
     "linkedin": "https://linkedin.com/in/rowanpsmith",
     "profileImage": "data/profile-image.jpg",
-    "about": "Software developer with over three years of professional experience building and maintaining internal financial systems using C#, ASP.NET, TypeScript, and SQL. Experienced in API integrations, modern frontend frameworks, and Agile development practices.",
+    "about": "Software engineer with over three years of professional experience building and maintaining systems using C#, ASP.NET, TypeScript, and SQL. Experienced in API integrations, modern frontend frameworks, and Agile development practices.",
     "experience": [
+      {
+        "title": "Full-Stack Developer",
+        "company": "Metso",
+        "period": "August 2026 - Present",
+        "bullets": [
+          "Develop industrial applications using C#, ASP.NET Core, TypeScript, React, and SQL.",
+          "Integrate web applications with embedded and industrial control systems.",
+          "Build backend services, APIs, real-time data flows, and frontend interfaces.",
+          "Develop containerised environments for integration and end-to-end testing.",
+          "Contribute to architecture, system integration, reliability, and testing practices.",
+          "Collaborate with software, embedded, automation, and engineering teams."
+        ]
+      },
       {
         "title": "Software Developer",
         "company": "FinanceOne",
@@ -67,19 +80,19 @@
       }
     ],
     "skills": {
-      "Languages": ["C#", "Visual Basic", "TypeScript", "SQL"],
-      "Frameworks": ["ASP.NET Core", ".NET 8", "React", "Redux", "Entity Framework"],
-      "Cloud & DevOps": ["Azure", "Docker", "Azure Pipelines", "Jira"],
+      "Languages": ["C#", "Visual Basic", "TypeScript", "SQL", "C++"],
+      "Frameworks": ["ASP.NET Core", ".NET 8", "React", "Redux", "Entity Framework", "Zustan"],
+      "Cloud & DevOps": ["Azure", "Docker", "Azure Pipelines", "Jira", "GitLab"],
       "Tools & Practices": ["Git Version Control", "REST APIs", "Agile / Scrum", "CQRS"],
       "Databases": ["Microsoft SQL Server", "PostgreSQL"]
     }
   },
   "home": {
-    "resumeCardDescription": "3+ years of professional experience, education, and technical skills building internal financial systems and modern web applications.",
-    "projectsCardDescription": "Personal experiments, weekend hacks, and side projects — things I build because they're fun or scratching my own itch.",
+    "resumeCardDescription": "4+ years of professional experience, education, and technical skills building internal financial systems and modern web applications.",
+    "projectsCardDescription": "Personal experiments, weekend hacks, and side projects, things I build because they're fun or scratching my own itch.",
     "resumeCardChips": ["Experience", "Education", "Skills"],
     "stats": [
-      { "value": "3+", "label": "Years Experience" },
+      { "value": "4+", "label": "Years Experience" },
       { "derive": "experienceCount", "label": "Employers" },
       { "derive": "projectCount", "label": "Personal Projects" },
       { "derive": "technologyCount", "label": "Technologies" }
