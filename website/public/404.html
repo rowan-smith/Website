@@ -6,7 +6,7 @@
     <script>
       // GitHub Pages SPA redirect — preserves the path for React Router
       const path = window.location.pathname;
-      sessionStorage.setItem('redirect', path);
+      sessionStorage.setItem('redirect', path + window.location.search + window.location.hash);
       const segments = path.split('/').filter(Boolean);
       const isProjectPages = window.location.hostname.endsWith('github.io') && segments.length > 1;
       const base = isProjectPages ? '/' + segments[0] + '/' : '/';

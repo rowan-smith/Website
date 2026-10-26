@@ -1,28 +1,35 @@
 import { useMemo, useState } from 'react';
 
-import { ExternalLink } from '@/components/common/ExternalLink';
 import { PageHero } from '@/components/common/PageHero';
 import { RouterLinkButton } from '@/components/common/RouterLinkButton';
-import { Badge } from '@/components/ui/badge';
+import { FeaturedProjectCard } from '@/components/projects/FeaturedProjectCard';
+import { ProjectCard } from '@/components/projects/ProjectCard';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
 } from '@/components/ui/empty';
+import { Separator } from '@/components/ui/separator';
 import { PROJECT_STATUS_MAP } from '@/constants/projectStatus';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useRequiredSiteData } from '@/hooks/useRequiredSiteData';
+import { gradientButtonClass } from '@/lib/gradientButtonClass';
 import { pageContainerClass } from '@/lib/pageContainer';
 import { cn } from '@/lib/utils';
 import type { SiteProject } from '@/types';
+
+const filterButtonClass = 'h-8 rounded-full px-3.5';
+const TOP_TAG_COUNT = 6;
+const filterLabelClass = 'text-xs font-semibold tracking-[0.15em] text-muted-foreground uppercase';
 
 export default function ProjectsPage() {
   const { funProjects: projects } = useRequiredSiteData();
   const [statusFilter, setStatusFilter] = useState<SiteProject['status'] | 'all'>('all');
   const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [showAllTags, setShowAllTags] = useState(false);
 
   usePageTitle('Projects');
 
@@ -32,15 +39,18 @@ export default function ProjectsPage() {
   );
 
   const allTags = useMemo(() => {
-    const tags = new Set<string>();
+    const counts = new Map<string, number>();
 
     projects.forEach((project) => {
-      project.tech.forEach((tech) => tags.add(tech));
-      project.keywords.forEach((keyword) => tags.add(keyword));
+      [...project.tech, ...project.keywords].forEach((tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1));
     });
 
-    return Array.from(tags);
+    return Array.from(counts.keys()).sort((a, b) => counts.get(b)! - counts.get(a)!);
   }, [projects]);
+
+  const visibleTags = showAllTags
+    ? allTags
+    : allTags.filter((tag, index) => index < TOP_TAG_COUNT || tag === tagFilter);
 
   const filtered = useMemo(() => {
     return projects.filter((project) => {
@@ -51,33 +61,30 @@ export default function ProjectsPage() {
     });
   }, [projects, statusFilter, tagFilter]);
 
+  const featured = filtered.find((project) => project.featured);
+  const rest = filtered.filter((project) => project !== featured);
+
   const toggleTag = (tag: string) => setTagFilter((prev) => (prev === tag ? null : tag));
 
   return (
     <>
-      <PageHero className="py-16 max-sm:py-13">
-        <div className={pageContainerClass}>
-          <h1 className="mb-2.5 text-5xl font-bold tracking-tight text-white max-sm:text-4xl">
-            Projects
-          </h1>
-          <p className="text-[17px] text-slate-400 max-sm:text-base">
-            Side projects, experiments, and things I build for fun.
-          </p>
-        </div>
-      </PageHero>
+      <PageHero
+        eyebrow="Projects"
+        title="Projects"
+        description="Side projects, experiments, and things I build for fun."
+        aside="A collection of personal projects, open source experiments, and ideas I bring to life. Each project helps me explore new technologies, solve real problems, and learn something new."
+      />
 
-      <main id="main-content" className={cn(pageContainerClass, 'py-12 pb-20 max-sm:py-8 max-sm:pb-14')}>
-        <Card className="mb-9 max-sm:mb-6">
-          <CardContent className="flex flex-col gap-3.5 p-5 max-sm:p-4">
-            <div className="flex flex-wrap items-center gap-3 max-sm:flex-col max-sm:items-start max-sm:gap-2">
-              <Badge variant="outline" className="min-w-12 rounded-full text-xs font-semibold tracking-wide uppercase">
-                Status
-              </Badge>
+      <main id="main-content" className={cn(pageContainerClass, 'flex flex-col gap-6 pb-20 max-sm:pb-14')}>
+        <Card className="rounded-2xl">
+          <CardContent className="flex flex-wrap items-center gap-x-6 gap-y-4 px-6 py-4 max-sm:px-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className={filterLabelClass}>Status</span>
               <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
                 <Button
                   size="sm"
                   variant={statusFilter === 'all' ? 'default' : 'outline'}
-                  className="rounded-full"
+                  className={filterButtonClass}
                   aria-pressed={statusFilter === 'all'}
                   onClick={() => setStatusFilter('all')}
                 >
@@ -88,7 +95,7 @@ export default function ProjectsPage() {
                     key={status}
                     size="sm"
                     variant={statusFilter === status ? 'default' : 'outline'}
-                    className="rounded-full"
+                    className={filterButtonClass}
                     aria-pressed={statusFilter === status}
                     onClick={() => setStatusFilter(status)}
                   >
@@ -98,92 +105,57 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 max-sm:flex-col max-sm:items-start max-sm:gap-2">
-              <Badge variant="outline" className="min-w-12 rounded-full text-xs font-semibold tracking-wide uppercase">
-                Tags
-              </Badge>
-              <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by tag">
-                {allTags.map((tag) => (
+            <Separator orientation="vertical" className="h-7 max-lg:hidden" />
+
+            <div className="flex min-w-0 flex-1 items-center gap-3 max-sm:flex-col max-sm:items-start">
+              <span className={filterLabelClass}>Tags</span>
+              <div className="flex min-w-0 flex-wrap gap-2" role="group" aria-label="Filter by tag">
+                <Button
+                  size="sm"
+                  variant={tagFilter === null ? 'default' : 'outline'}
+                  className={filterButtonClass}
+                  aria-pressed={tagFilter === null}
+                  onClick={() => setTagFilter(null)}
+                >
+                  All
+                </Button>
+                {visibleTags.map((tag) => (
                   <Button
                     key={tag}
                     size="sm"
                     variant={tagFilter === tag ? 'default' : 'outline'}
-                    className="rounded-full"
+                    className={filterButtonClass}
                     aria-pressed={tagFilter === tag}
                     onClick={() => toggleTag(tag)}
                   >
                     {tag}
                   </Button>
                 ))}
+                {allTags.length > TOP_TAG_COUNT && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className={cn(filterButtonClass, 'text-primary')}
+                    aria-expanded={showAllTags}
+                    onClick={() => setShowAllTags((shown) => !shown)}
+                  >
+                    {showAllTags ? 'Fewer' : `+${allTags.length - TOP_TAG_COUNT} more`}
+                  </Button>
+                )}
               </div>
             </div>
           </CardContent>
         </Card>
 
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 max-sm:grid-cols-1">
-            {filtered.map((proj) => {
-              const { label, className: statusClassName } = PROJECT_STATUS_MAP[proj.status];
-
-              return (
-                <Card key={proj.name} className="transition-transform hover:-translate-y-0.5 hover:shadow-lg">
-                  <CardContent className="flex flex-col gap-3 p-7 max-sm:p-5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[28px] leading-none" aria-hidden="true">{proj.emoji}</span>
-                      <Badge variant="outline" className={cn('rounded-full', statusClassName)}>
-                        {label}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-lg">{proj.name}</CardTitle>
-                    <CardDescription className="flex-1 leading-relaxed">{proj.description}</CardDescription>
-                    <div className="flex flex-wrap gap-2">
-                      {proj.tech.map((tech) => (
-                        <Badge
-                          key={tech}
-                          variant={tagFilter === tech ? 'default' : 'secondary'}
-                          className="cursor-pointer rounded-full"
-                          render={<button type="button" onClick={() => toggleTag(tech)} />}
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                    {proj.keywords.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {proj.keywords.map((keyword) => (
-                          <Badge
-                            key={keyword}
-                            variant="outline"
-                            className={cn(
-                              'cursor-pointer rounded-full',
-                              tagFilter === keyword && 'bg-foreground text-background',
-                            )}
-                            render={<button type="button" onClick={() => toggleTag(keyword)} />}
-                          >
-                            {keyword}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                    {(proj.githubLink || proj.websiteLink) && (
-                      <div className="mt-1 flex flex-wrap gap-3">
-                        {proj.githubLink && (
-                          <ExternalLink href={proj.githubLink}>
-                            GitHub →
-                          </ExternalLink>
-                        )}
-                        {proj.websiteLink && (
-                          <ExternalLink href={proj.websiteLink}>
-                            Website →
-                          </ExternalLink>
-                        )}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+          <>
+            {featured && <FeaturedProjectCard project={featured} activeTag={tagFilter} onTagClick={toggleTag} />}
+            <div className="grid grid-cols-3 gap-6 max-[1080px]:grid-cols-2 max-[720px]:grid-cols-1 *:min-w-0">
+              {rest.map((project) => (
+                <ProjectCard key={project.name} project={project} activeTag={tagFilter} onTagClick={toggleTag} />
+              ))}
+            </div>
+          </>
         ) : (
           <Empty className="py-12">
             <EmptyHeader>
@@ -193,12 +165,16 @@ export default function ProjectsPage() {
           </Empty>
         )}
 
-        <Card className="mt-18 bg-muted/50 text-center max-sm:mt-12">
+        <Card className="mt-12 rounded-2xl bg-linear-to-br from-primary/15 to-card text-center max-sm:mt-8">
           <CardContent className="p-12 max-sm:p-7">
             <CardDescription className="mb-5 text-base">
               Want to see my professional experience?
             </CardDescription>
-            <RouterLinkButton to="/resume" size="lg">
+            <RouterLinkButton
+              to="/resume"
+              size="lg"
+              className={cn(gradientButtonClass, 'h-11')}
+            >
               View Resume →
             </RouterLinkButton>
           </CardContent>

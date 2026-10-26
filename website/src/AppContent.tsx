@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { RouteFallback } from '@/components/common/RouteFallback';
 import { SkipLink } from '@/components/common/SkipLink';
+import { SiteBackdrop } from '@/components/layout/SiteBackdrop';
 import { SiteNav } from '@/components/layout/SiteNav';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -13,6 +14,9 @@ import NotFoundPage from '@/pages/NotFoundPage';
 
 const ResumePage = lazy(() => import('@/pages/ResumePage'));
 const ProjectsPage = lazy(() => import('@/pages/ProjectsPage'));
+const WikiPage = lazy(() => import('@/pages/WikiPage'));
+const SolidPage = lazy(() => import('@/pages/SolidPage'));
+const SolidPrinciplePage = lazy(() => import('@/pages/SolidPrinciplePage'));
 
 export default function AppContent() {
   const { loading, error } = useSiteData();
@@ -41,12 +45,16 @@ export default function AppContent() {
   return (
     <>
       <SkipLink />
+      <SiteBackdrop />
       <SiteNav />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<IndexPage />} />
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/wiki" element={<WikiPage />} />
+          <Route path="/wiki/solid" element={<SolidPage />} />
+          <Route path="/wiki/solid/:principleId" element={<SolidPrinciplePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>

@@ -43,6 +43,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Test interactive examples
+        run: npm test
+
       - name: Determine Vite base path
         id: base
         env:

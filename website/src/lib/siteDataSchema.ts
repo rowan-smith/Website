@@ -47,6 +47,8 @@ const homeStatSchema = z
   });
 
 const homeDataSchema = z.object({
+  tagline: z.string().min(1).optional(),
+  interests: z.array(z.string().min(1)).optional(),
   resumeCardDescription: z.string().min(1),
   projectsCardDescription: z.string().min(1),
   resumeCardChips: z.array(z.string().min(1)),
@@ -63,6 +65,8 @@ const siteProjectSchema = z.object({
   githubLink: z.url().optional(),
   websiteLink: z.url().optional(),
   highlightOnResume: z.boolean().optional(),
+  featured: z.boolean().optional(),
+  image: z.string().min(1).optional(),
 });
 
 export const siteDataSchema = z.object({

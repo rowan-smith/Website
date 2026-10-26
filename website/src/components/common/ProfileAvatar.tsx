@@ -14,11 +14,11 @@ export function ProfileAvatar({ name, imageSrc, className }: ProfileAvatarProps)
     .join('');
 
   return (
-    <Avatar className={cn('mb-2 size-40 border-4 border-indigo-500/25 shadow-[0_12px_30px_rgba(99,102,241,0.4)] max-sm:size-36', className)}>
+    <Avatar className={cn('size-40 border-4 border-primary/50 shadow-[0_0_0_8px_oklch(0.6_0.2_277/0.12),0_0_60px_-5px_var(--color-primary)] max-sm:size-36', className)}>
       {imageSrc && (
         <AvatarImage src={imageSrc} alt={`${name} profile`} />
       )}
-      <AvatarFallback className="bg-linear-to-br from-blue-500 to-indigo-500 text-5xl font-bold text-white max-sm:text-4xl">
+      <AvatarFallback className="bg-linear-to-br from-blue-500 to-violet-500 text-5xl font-bold text-white max-sm:text-4xl">
         {initials}
       </AvatarFallback>
     </Avatar>

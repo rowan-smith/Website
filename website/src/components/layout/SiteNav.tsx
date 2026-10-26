@@ -24,7 +24,14 @@ const RESUME_SECTIONS = [
   { label: 'Contact', hash: 'contact' },
 ];
 
-const navButtonClass = 'h-auto rounded-md px-2.5 py-1.5 text-[13.5px] font-medium text-slate-400 hover:bg-white/10 hover:text-white';
+const PAGE_LINKS = [
+  { label: 'Resume', to: '/resume' },
+  { label: 'Projects', to: '/projects' },
+  { label: 'Wiki', to: '/wiki' },
+];
+
+const navButtonClass = 'relative h-auto rounded-lg px-3.5 py-2 text-sm font-medium text-muted-foreground hover:bg-primary/10 hover:text-foreground max-[900px]:w-full max-[900px]:justify-start';
+const activeNavButtonClass = 'bg-primary/15 text-foreground after:absolute after:inset-x-3 after:-bottom-px after:h-0.5 after:rounded-full after:bg-primary max-[900px]:after:hidden';
 
 export function SiteNav() {
   const { pathname } = useLocation();
@@ -36,119 +43,120 @@ export function SiteNav() {
   const themeLabel = getThemeToggleLabel(mode);
 
   return (
-    <nav aria-label="Main navigation" className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/95 backdrop-blur-md">
-      <div className={cn(pageContainerClass, 'relative flex h-15 items-center justify-between')}>
-        <Button
-          variant="ghost"
-          className="h-auto gap-2.5 px-0 text-white hover:bg-transparent hover:text-slate-200"
-          render={<Link to="/" />}
-        >
-          <img
-            className="size-8 object-contain"
-            src={resolveAssetPath('favicon-dark.svg')}
-            alt=""
-            aria-hidden="true"
-          />
-          <span className="text-[15px] font-semibold tracking-tight">{resume.name}</span>
-        </Button>
+    <nav aria-label="Main navigation" className="sticky top-0 z-50 pt-3">
+      <div className={pageContainerClass}>
+        <div className="relative flex h-16 items-center justify-between rounded-2xl border bg-background/70 px-4 shadow-[0_10px_40px_-12px_oklch(0.3_0.15_277/0.35)] backdrop-blur-xl">
+          <Button
+            variant="ghost"
+            className="h-auto gap-3 px-1 text-foreground hover:bg-transparent hover:text-foreground"
+            render={<Link to="/" />}
+          >
+            <img
+              className="size-9 object-contain"
+              src={resolveAssetPath(theme === 'dark' ? 'favicon-dark.svg' : 'favicon.svg')}
+              alt=""
+              aria-hidden="true"
+            />
+            <span className="text-base font-semibold tracking-tight">{resume.name}</span>
+          </Button>
 
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          className="ml-auto border-white/20 bg-white/5 text-slate-100 hover:bg-white/10 hover:text-white"
-          onClick={toggleTheme}
-          aria-label={themeLabel}
-          title={themeLabel}
-        >
-          {mode === 'system' ? (
-            <Monitor className="size-4" />
-          ) : theme === 'dark' ? (
-            <Sun className="size-4" />
-          ) : (
-            <Moon className="size-4" />
-          )}
-        </Button>
-
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          className="ml-2 hidden border-white/20 bg-transparent text-slate-100 hover:bg-white/10 max-[660px]:inline-flex"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-expanded={menuOpen}
-          aria-controls="site-nav-links"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {menuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
-        </Button>
-
-        <ul
-          id="site-nav-links"
-          className={cn(
-            'm-0 flex list-none gap-0.5 p-0 max-[660px]:absolute max-[660px]:top-15 max-[660px]:right-0 max-[660px]:left-0 max-[660px]:hidden max-[660px]:flex-col max-[660px]:gap-1.5 max-[660px]:border-t max-[660px]:border-b max-[660px]:border-white/10 max-[660px]:bg-slate-900/98 max-[660px]:px-0 max-[660px]:py-2.5 max-[660px]:shadow-xl',
-            menuOpen && 'max-[660px]:flex',
-            !onResume && 'ml-3.5',
-          )}
-        >
-          {onResume ? (
-            <>
-              {RESUME_SECTIONS.map(({ label, hash }) => (
-                <li key={hash}>
-                  <AnchorButton
-                    href={`#${hash}`}
-                    variant="ghost"
-                    size="sm"
-                    className={cn(navButtonClass, 'max-[660px]:block max-[660px]:w-full max-[660px]:px-3 max-[660px]:py-2.5 max-[660px]:text-sm')}
-                    onClick={closeMenu}
-                  >
-                    {label}
-                  </AnchorButton>
+          <ul
+            id="site-nav-links"
+            className={cn(
+              'm-0 ml-auto flex list-none items-center gap-1 p-0 max-[900px]:absolute max-[900px]:top-[calc(100%+0.5rem)] max-[900px]:right-0 max-[900px]:left-0 max-[900px]:hidden max-[900px]:flex-col max-[900px]:items-stretch max-[900px]:rounded-2xl max-[900px]:border max-[900px]:bg-popover max-[900px]:p-2 max-[900px]:shadow-xl',
+              menuOpen && 'max-[900px]:flex',
+              !onResume && 'xl:absolute xl:left-1/2 xl:ml-0 xl:-translate-x-1/2',
+            )}
+          >
+            {onResume ? (
+              <>
+                {RESUME_SECTIONS.map(({ label, hash }) => (
+                  <li key={hash}>
+                    <AnchorButton href={`#${hash}`} variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
+                      {label}
+                    </AnchorButton>
+                  </li>
+                ))}
+                <li className="flex items-center max-[900px]:hidden" aria-hidden="true">
+                  <Separator orientation="vertical" className="mx-1 h-4" />
                 </li>
-              ))}
-              <li className="flex items-center max-[660px]:hidden" aria-hidden="true">
-                <Separator orientation="vertical" className="mx-0.5 h-4 bg-white/15" />
-              </li>
-              <li>
-                <RouterLinkButton
-                  to="/projects"
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full border-blue-500/30 bg-blue-500/20 text-blue-200 hover:bg-blue-500/30 hover:text-blue-100 max-[660px]:mx-3"
-                  onClick={closeMenu}
-                >
-                  Projects ↗
-                </RouterLinkButton>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <RouterLinkButton to="/resume" variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
-                  Resume
-                </RouterLinkButton>
-              </li>
+                <li>
+                  <RouterLinkButton to="/projects" variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
+                    Projects
+                  </RouterLinkButton>
+                </li>
+                <li>
+                  <RouterLinkButton to="/wiki" variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
+                    Wiki
+                  </RouterLinkButton>
+                </li>
+              </>
+            ) : (
+              <>
+                {PAGE_LINKS.map(({ label, to }) => {
+                  const active = pathname === to || pathname.startsWith(`${to}/`);
 
-              <li>
-                <RouterLinkButton to="/projects" variant="ghost" size="sm" className={navButtonClass} onClick={closeMenu}>
-                  Projects
-                </RouterLinkButton>
-              </li>
+                  return (
+                    <li key={to}>
+                      <RouterLinkButton
+                        to={to}
+                        variant="ghost"
+                        size="sm"
+                        className={cn(navButtonClass, active && activeNavButtonClass)}
+                        onClick={closeMenu}
+                      >
+                        {label}
+                      </RouterLinkButton>
+                    </li>
+                  );
+                })}
 
-              <li>
-                <ExternalLink href={resume.github} className={navButtonClass} onClick={closeMenu}>
-                  GitHub
-                </ExternalLink>
-              </li>
+                <li>
+                  <ExternalLink href={resume.github} className={cn(navButtonClass, 'no-underline hover:no-underline')} onClick={closeMenu}>
+                    GitHub
+                  </ExternalLink>
+                </li>
 
-              <li>
-                <ExternalLink href={resume.linkedin} className={navButtonClass} onClick={closeMenu}>
-                  LinkedIn
-                </ExternalLink>
-              </li>
-            </>
-          )}
-        </ul>
+                <li>
+                  <ExternalLink href={resume.linkedin} className={cn(navButtonClass, 'no-underline hover:no-underline')} onClick={closeMenu}>
+                    LinkedIn
+                  </ExternalLink>
+                </li>
+              </>
+            )}
+          </ul>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className={cn('ml-3 rounded-xl bg-transparent max-[900px]:ml-auto', !onResume && 'xl:ml-auto')}
+            onClick={toggleTheme}
+            aria-label={themeLabel}
+            title={themeLabel}
+          >
+            {mode === 'system' ? (
+              <Monitor className="size-4" />
+            ) : theme === 'dark' ? (
+              <Sun className="size-4" />
+            ) : (
+              <Moon className="size-4" />
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="ml-2 hidden rounded-xl bg-transparent max-[900px]:inline-flex"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="site-nav-links"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {menuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+          </Button>
+        </div>
       </div>
     </nav>
   );

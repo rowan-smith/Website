@@ -1,14 +1,24 @@
+import { ArrowRight, BookOpen, Box, Briefcase, Calendar, FileText, Layers, Rocket } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { PageSection } from '@/components/common/PageSection';
-import { ProfileHero } from '@/components/common/ProfileHero';
 import { RouterLinkButton } from '@/components/common/RouterLinkButton';
-import { StatBlock } from '@/components/common/StatBlock';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import { HomeHero } from '@/components/home/HomeHero';
+import { NavCard } from '@/components/home/NavCard';
+import { StatsBar } from '@/components/home/StatsBar';
+import { ProjectCard } from '@/components/projects/ProjectCard';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useRequiredSiteData } from '@/hooks/useRequiredSiteData';
+import { pageContainerClass } from '@/lib/pageContainer';
 import { resolveHomeStats } from '@/lib/resolveHomeStats';
+import { cn } from '@/lib/utils';
+
+const STAT_ICONS = [
+  { icon: Calendar, iconClassName: 'text-blue-500 dark:text-blue-400' },
+  { icon: Briefcase, iconClassName: 'text-emerald-500 dark:text-emerald-400' },
+  { icon: Box, iconClassName: 'text-violet-500 dark:text-violet-400' },
+  { icon: Layers, iconClassName: 'text-orange-500 dark:text-orange-400' },
+];
 
 export default function IndexPage() {
   const data = useRequiredSiteData();
@@ -32,75 +42,63 @@ export default function IndexPage() {
     [home.stats, resume, funProjects],
   );
 
+  const featuredProjects = useMemo(
+    () => [...funProjects].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))).slice(0, 2),
+    [funProjects],
+  );
+
   return (
     <>
-      <ProfileHero resume={resume} className="py-25 max-sm:py-18" />
+      <HomeHero resume={resume} home={home} highlight={stats[0]} />
 
       <main id="main-content">
-        <PageSection shade="muted">
-          <div className="grid grid-cols-2 gap-6 max-sm:grid-cols-1 *:min-w-0">
-            <RouterLinkButton
+        <section className={cn(pageContainerClass, 'flex flex-col gap-6 py-6')} aria-label="Explore the site">
+          <div className="grid grid-cols-3 gap-6 max-[960px]:grid-cols-1 *:min-w-0">
+            <NavCard
               to="/resume"
-              variant="ghost"
-              className="block h-auto w-full min-w-0 p-0 text-left whitespace-normal"
-            >
-              <Card className="h-full w-full min-w-0 transition-transform hover:-translate-y-1 hover:shadow-lg">
-                <CardContent className="flex h-full flex-col gap-4 p-9">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[32px] leading-none" aria-hidden="true">📄</span>
-                    <span className="text-[22px] opacity-40" aria-hidden="true">→</span>
-                  </div>
-                  <CardTitle className="text-2xl">Resume</CardTitle>
-                  <CardDescription className="text-pretty text-[15px] leading-relaxed">
-                    {home.resumeCardDescription}
-                  </CardDescription>
-                  <div className="mt-auto flex flex-wrap gap-2">
-                    {home.resumeCardChips.map((chip) => (
-                      <Badge key={chip} variant="secondary" className="rounded-full text-xs">
-                        {chip}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </RouterLinkButton>
-
-            <RouterLinkButton
+              title="Resume"
+              description={home.resumeCardDescription}
+              icon={<FileText className="size-6" />}
+              iconClassName="from-violet-500/25 to-violet-500/5 text-violet-500 dark:text-violet-300"
+              chips={home.resumeCardChips}
+            />
+            <NavCard
               to="/projects"
-              variant="ghost"
-              className="block h-auto w-full min-w-0 p-0 text-left whitespace-normal"
-            >
-              <Card className="h-full w-full min-w-0 border-indigo-500/30 bg-indigo-950 text-indigo-100 transition-transform hover:-translate-y-1 hover:shadow-lg">
-                <CardContent className="flex h-full flex-col gap-4 p-9">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[32px] leading-none" aria-hidden="true">🚀</span>
-                    <span className="text-[22px] opacity-40" aria-hidden="true">→</span>
-                  </div>
-                  <CardTitle className="text-2xl text-indigo-100">Projects</CardTitle>
-                  <CardDescription className="text-pretty text-[15px] leading-relaxed text-indigo-300">
-                    {home.projectsCardDescription}
-                  </CardDescription>
-                  <div className="mt-auto flex flex-wrap gap-2">
-                    {projectChips.map((chip) => (
-                      <Badge
-                        key={chip}
-                        variant="outline"
-                        className="rounded-full border-indigo-500/25 bg-indigo-500/15 text-indigo-300 text-xs"
-                      >
-                        {chip}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </RouterLinkButton>
+              title="Projects"
+              description={home.projectsCardDescription}
+              icon={<Rocket className="size-6" />}
+              iconClassName="from-indigo-500/25 to-indigo-500/5 text-indigo-500 dark:text-indigo-300"
+              chips={projectChips}
+              highlighted
+            />
+            <NavCard
+              to="/wiki"
+              title="Wiki"
+              description="Software engineering explained through everyday examples, practical code, and interactive experiments."
+              icon={<BookOpen className="size-6" />}
+              iconClassName="from-emerald-500/25 to-emerald-500/5 text-emerald-600 dark:text-emerald-300"
+              chips={['SOLID', 'Design', 'Interactive']}
+            />
           </div>
-        </PageSection>
 
-        <PageSection className="border-t py-16">
-          <div className="grid grid-cols-4 gap-6 max-sm:grid-cols-2">
-            {stats.map(({ value, label }) => (
-              <StatBlock key={label} value={value} label={label} />
+          <StatsBar stats={stats.map((stat, index) => ({ ...stat, ...STAT_ICONS[index % STAT_ICONS.length] }))} />
+        </section>
+
+        <PageSection
+          id="featured-projects"
+          eyebrow="Featured projects"
+          title="Things I Build"
+          description="A selection of personal projects, experiments, and tools I've built."
+          action={(
+            <RouterLinkButton to="/projects" variant="outline" className="gap-2 rounded-xl bg-card backdrop-blur-md">
+              View All Projects <ArrowRight className="size-4" />
+            </RouterLinkButton>
+          )}
+          className="pb-20"
+        >
+          <div className="grid grid-cols-2 gap-6 max-[860px]:grid-cols-1 *:min-w-0">
+            {featuredProjects.map((project) => (
+              <ProjectCard key={project.name} project={project} />
             ))}
           </div>
         </PageSection>

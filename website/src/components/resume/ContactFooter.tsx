@@ -1,12 +1,14 @@
+import { ArrowRight } from 'lucide-react';
+
+import { LinkedInIcon } from '@/components/icons/LinkedInIcon';
 import { Button } from '@/components/ui/button';
-import { CardDescription } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
+import { gradientButtonClass } from '@/lib/gradientButtonClass';
 import { pageContainerClass } from '@/lib/pageContainer';
 import { cn } from '@/lib/utils';
 import type { ResumeData } from '@/types';
 
-import { ExternalLink } from '../common/ExternalLink';
-import { PageHero } from '../common/PageHero';
+import { ProfileContactLinks } from '../common/ProfileContactLinks';
 
 type ContactFooterProps = {
   resume: ResumeData;
@@ -14,41 +16,36 @@ type ContactFooterProps = {
 
 export default function ContactFooter({ resume }: ContactFooterProps) {
   return (
-    <footer id="contact">
-      <PageHero className="max-sm:py-15">
-        <div className={cn(pageContainerClass, 'flex flex-col items-center gap-3.5')}>
-          <h2 className="text-[34px] font-bold tracking-tight text-white max-sm:text-[26px]">
+    <footer id="contact" className={cn(pageContainerClass, 'scroll-mt-24 py-14 max-sm:py-10')}>
+      <Card className="rounded-2xl bg-linear-to-br from-primary/20 via-card to-card ring-primary/40 shadow-[0_0_60px_-25px_var(--color-primary)]">
+        <CardContent className="flex flex-col items-center gap-4 p-12 text-center max-sm:p-7">
+          <h2 className="text-4xl font-bold tracking-tight max-sm:text-[28px]">
             Get In Touch
           </h2>
-          <CardDescription className="max-w-140 text-base text-balance text-slate-400">
+          <CardDescription className="max-w-140 text-base text-balance">
             I'm open to new opportunities. Feel free to reach out!
           </CardDescription>
 
-          <div className="mt-2 flex flex-wrap justify-center gap-3">
-            <Button
-              size="lg"
-              className="shadow-[0_4px_14px_rgba(37,99,235,0.4)]"
-              render={<a href={resume.linkedin} target="_blank" rel="noopener noreferrer" />}
-            >
-              Connect on LinkedIn
-            </Button>
-          </div>
+          <Button
+            size="lg"
+            className={cn(gradientButtonClass, 'mt-2 h-12 gap-2.5')}
+            render={<a href={resume.linkedin} target="_blank" rel="noopener noreferrer" />}
+          >
+            <LinkedInIcon className="size-4" /> Connect on LinkedIn <ArrowRight className="size-4" />
+          </Button>
 
-          <div className="mt-1 flex flex-wrap items-center justify-center gap-2.5 text-sm max-[520px]:flex-col max-[520px]:gap-1">
-            <ExternalLink href={resume.github} className="text-slate-400 hover:text-slate-200">
-              GitHub
-            </ExternalLink>
-            <Separator orientation="vertical" className="h-3 bg-slate-400/35 max-[520px]:hidden" />
-            <ExternalLink href={resume.linkedin} className="text-slate-400 hover:text-slate-200">
-              LinkedIn
-            </ExternalLink>
-          </div>
+          <ProfileContactLinks
+            location={resume.location}
+            github={resume.github}
+            linkedin={resume.linkedin}
+            className="mt-2 justify-center"
+          />
 
-          <CardDescription className="mt-1.5 text-[13px] text-slate-500">
+          <CardDescription className="text-[13px]">
             © {new Date().getFullYear()} {resume.name}
           </CardDescription>
-        </div>
-      </PageHero>
+        </CardContent>
+      </Card>
     </footer>
   );
 }

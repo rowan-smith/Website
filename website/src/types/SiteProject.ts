@@ -8,4 +8,6 @@ export interface SiteProject {
   status: 'active' | 'completed' | 'maintenance' | 'wip';
   emoji: string;
   highlightOnResume?: boolean;
+  featured?: boolean;
+  image?: string;
 }

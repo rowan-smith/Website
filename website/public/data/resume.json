@@ -88,6 +88,8 @@
     }
   },
   "home": {
+    "tagline": "Building useful things at the intersection of software, systems, and curiosity.",
+    "interests": ["Systems", "Web Development", "Game Dev", "Open Source"],
     "resumeCardDescription": "4+ years of professional experience, education, and technical skills building internal financial systems and modern web applications.",
     "projectsCardDescription": "Personal experiments, weekend hacks, and side projects, things I build because they're fun or scratching my own itch.",
     "resumeCardChips": ["Experience", "Education", "Skills"],
@@ -100,7 +102,28 @@
   },
   "funProjects": [
     {
+      "name": "Vyrtel",
+      "image": "data/projects/vyrtel.svg",
+      "emoji": "📡",
+      "status": "active",
+      "description": "A lightweight, self-hosted observability platform built in Rust. Brings structured logs, traces, metrics, dashboards, and alerts into one process, with OpenTelemetry ingestion, a built-in query engine, and local storage. Designed for a small footprint and offline operation.",
+      "tech": [
+        "Rust",
+        "TypeScript",
+        "React"
+      ],
+      "keywords": [
+        "Observability",
+        "OpenTelemetry",
+        "Self-hosted"
+      ],
+      "highlightOnResume": true,
+      "featured": true,
+      "githubLink": "https://github.com/rowan-smith/Vyrtel"
+    },
+    {
       "name": "IgnisCore",
+      "image": "data/projects/igniscore.svg",
       "emoji": "🔥",
       "status": "active",
       "description": "A multi-platform framework for custom Minecraft blocks, items, and runtime extensions. Supports Spigot, Paper, and Sponge with a deployable extension system and documentation site.",
@@ -111,6 +134,7 @@
     },
     {
       "name": "PermissionsExPlus",
+      "image": "data/projects/permissionsexplus.svg",
       "emoji": "🔐",
       "status": "maintenance",
       "description": "A maintained fork of PermissionsEx providing multi-platform permission management for Bukkit, BungeeCord, Velocity, and Sponge. Includes migration tooling, modern and legacy APIs, and comprehensive documentation.",
@@ -121,6 +145,7 @@
     },
     {
       "name": "Spotify Streaming History Explorer",
+      "image": "data/projects/spotify-history.svg",
       "emoji": "🎵",
       "status": "maintenance",
       "description": "A browser-based tool for exploring Spotify Extended Streaming History exports. Upload JSON files, filter listening data, and browse interactive charts — all processed locally on your device.",
@@ -132,6 +157,7 @@
     },
     {
       "name": "VibeGame",
+      "image": "data/projects/vibegame.svg",
       "emoji": "🎮",
       "status": "active",
       "description": "An open-world voxel sandbox game built through AI-assisted development. Features procedurally generated biomes, real-time terrain editing, and ore discovery across a surreal fantasy world.",
@@ -142,6 +168,7 @@
     },
     {
       "name": "ProxyChat",
+      "image": "data/projects/proxychat.svg",
       "emoji": "💬",
       "status": "maintenance",
       "description": "A cross-server chat plugin for BungeeCord and Waterfall. Supports toggleable and ignorable chats, customisable messages, cooldowns, tab completion, and colour formatting.",
